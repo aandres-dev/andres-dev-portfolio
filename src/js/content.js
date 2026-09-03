@@ -3,8 +3,8 @@ export const SUPPORTED_LANGS = Object.freeze(['es', 'en']);
 
 export const content = {
   'meta.title': {
-    es: 'Andrés López — Desarrollador full-stack en formación',
-    en: 'Andrés López — Full-stack developer in training',
+    es: 'Andrés López: desarrollador full-stack en formación',
+    en: 'Andrés López: full-stack developer in training',
   },
   'meta.description': {
     es: 'Andrés López, desarrollador full-stack autodidacta en formación. Dirijo, cuestiono y verifico el trabajo asistido por IA.',

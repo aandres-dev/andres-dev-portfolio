@@ -425,3 +425,39 @@ This record supersedes the false-positive completion claim in “Recovery PR 1 �
 - `git diff --check` passed. Review of correction paths found no live email, Target Email, Turnstile secret, or provider ID; only test-local values and the existing public placeholders are present.
 - The correction work unit has 190 authored changed lines (112 test, 38 form behavior, 40 correction record), below the 400-line budget. No `size:exception`, commit, push, PR, deployment, Git configuration, `.agents/`, or `.codegraph/` change occurred.
 - Task 4.5 remains blocked by absent staged public IDs; tasks 4.6 and 4.10 still require browser and provider staging verification.
+
+---
+
+## Recovery PR 2 — Visual responsive corrections — 2026-09-03
+
+### Structured status consumed
+
+- `changeName`: portfolio-v1; `artifactStore`: openspec; `applyState`: ready.
+- Native attempt: `sha256:df34f7007f360daeb66f4e9f6ed5f0bd31b012966f1a97f659a1ce9542535828`; work unit: `recovery-pr2-visual-responsive`; `state: proceed`; settlement remains pending parent ownership.
+- Delivery: `ask-on-risk` resolved to chained PRs with `feature-branch-chain`; PR 2 base: `recovery/portfolio-v1-contact-safety`; 400-line budget; no `size:exception`.
+- Strict TDD: inactive (`openspec/config.yaml`); no test runner is configured.
+
+### Completed tasks
+
+| Task | Persisted checkbox | Evidence |
+|---|---|---|
+| 4.7 Responsive header and contrast correction | `- [x]` | Removed the header `max-height`, so its existing wrapping flex layout has no clipping cap; normal `.case-status` text now uses Snow on Gluon Grey. |
+| 4.8 Copy and CTA correction | `- [x]` | Replaced all source em dashes in the bilingual document title; the hero retains the only hiring CTA and the duplicate footer CTA was removed. |
+
+### Work Unit Evidence
+
+| Evidence | Result |
+|---|---|
+| Focused test command and exact result | Inline deterministic Python checks exited 0: no prohibited em dashes in `src/index.html`, `content.js`, hero, or footer; exactly one hero CTA targets `#contact`; footer has no duplicate CTA; Liquid Lava on Dark Void is `4.6568:1`; Snow normal status text on Gluon Grey is `14.9221:1`. |
+| Runtime harness command/scenario and exact result | N/A — Chromium and the Playwright CLI are installed, but no usable Playwright Node module or browser automation harness is configured. No browser PASS is claimed. Static evidence confirms `header` retains `flex-wrap: wrap` and has no `max-height` at any breakpoint, including 768–1024px. |
+| Rollback boundary | Revert the header height and status foreground changes in `src/css/site.css`, title-copy changes in `src/index.html` and `src/js/content.js`, and the footer CTA removal; no contact/provider, asset, deployment, or parent-owned work is affected. |
+
+### Verification and accounting
+
+- `npm run check`: exit 0; validation inspected 9 HTML files with 0 errors and 3 expected include-landmark warnings; build assembled `dist/index.html` and copied CSS/JS.
+- `git diff --check`: exit 0.
+- Evidence revision SHA-256: `cd3140a922a8cc2f416b67bad8cf27ff1ceac74ed23540862e609df56404b36d`, computed from `git diff --binary -- src/css/site.css src/index.html src/js/content.js src/sections/footer.html`.
+- Changed implementation paths: `src/css/site.css`, `src/index.html`, `src/js/content.js`, `src/sections/footer.html`. `src/css/tokens.css` and `src/sections/hero.html` required no edit because the approved Liquid Lava token already passes on Dark Void and the retained hero CTA is the single primary hiring path.
+- Implementation diff: 16 changed lines (4 additions, 12 deletions); records add 40 changed lines, for 56 authored changed lines total. This is below the 400-line limit; no `size:exception` is requested.
+- No commit, push, PR, deploy, history rewrite, provider ID, asset, `.agents/`, or `.codegraph/` change occurred. Unrelated untracked `.agents/` and `.codegraph/` remain excluded.
+- Browser limitation remains: visual reflow at 768–1024px needs an independently configured browser harness before release verification. This static proof does not complete tasks 4.6 or 4.10.
