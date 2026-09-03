@@ -1,0 +1,90 @@
+schema: spec-driven
+project: porfolio-andres.dev
+strict_tdd: false
+
+artifact_store:
+  mode: hybrid
+
+execution:
+  mode: interactive
+  delivery_strategy: ask-on-risk
+  review_budget_lines: 400
+
+context: |
+  Tech stack: Node.js ES modules with a static vanilla HTML/CSS/JavaScript portfolio.
+  Architecture: Scripted modular static-site assembly; source files are expected under src/ and emitted to dist/.
+  Testing: No test runner, test suite, coverage tool, linter, type checker, or formatter is configured.
+  Quality: Custom HTML semantic/line-count validation is available through npm run validate.
+  Build: npm run build assembles src/index.html and copies CSS, JavaScript, and assets to dist/.
+  Style: Existing scripts use English identifiers and Spanish console messages.
+
+projects:
+  - path: "."
+    stack: "Node.js ES modules; static vanilla HTML/CSS/JavaScript"
+    test_command: ""
+    test_runner: ""
+    test_layers:
+      unit: false
+      integration: false
+      e2e: false
+    coverage_command: ""
+    quality:
+      linter:
+        available: false
+        command: ""
+      type_checker:
+        available: false
+        command: ""
+      formatter:
+        available: false
+        command: ""
+    validation_command: "npm run validate"
+    build_command: "npm run build"
+    aggregate_check_command: "npm run check"
+
+testing:
+  strict_tdd: false
+  workspace_test_command: ""
+  fallback_reason: "No explicit workspace-level test command covers the discovered project; npm run check is a validation/build pipeline, not a test runner."
+  projects:
+    - path: "."
+      test_command: ""
+      test_runner: ""
+      validation_command: "npm run validate"
+      build_command: "npm run build"
+      aggregate_check_command: "npm run check"
+      test_layers:
+        unit: false
+        integration: false
+        e2e: false
+      coverage_command: ""
+      quality:
+        linter: ""
+        type_checker: ""
+        formatter: ""
+
+rules:
+  proposal:
+    - Include rollback plans for risky changes.
+  specs:
+    - Use Given/When/Then scenarios.
+    - Use RFC 2119 keywords (MUST, SHALL, SHOULD, MAY).
+  design:
+    - Document architecture decisions with rationale.
+    - Include sequence diagrams for complex flows.
+  tasks:
+    - Group tasks by phase with hierarchical numbering.
+    - Keep tasks completable in one session.
+  apply:
+    guidelines:
+      - Follow existing vanilla web patterns and modular source conventions.
+    tdd: false
+    test_command: ""
+  verify:
+    test_command: ""
+    build_command: "npm run build"
+    validation_command: "npm run validate"
+    aggregate_check_command: "npm run check"
+    coverage_threshold: 0
+  archive:
+    - Warn before merging destructive deltas.

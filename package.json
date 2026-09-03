@@ -1,0 +1,19 @@
+{
+  "name": "portfolio-andres-dev",
+  "version": "1.0.0",
+  "description": "High-performance semantic portfolio built with modern vanilla web standards",
+  "type": "module",
+  "scripts": {
+    "validate": "node script/validate.js",
+    "build": "node script/build.js",
+    "check": "npm run validate && npm run build"
+  },
+  "keywords": [
+    "portfolio",
+    "semantic-html",
+    "modern-css",
+    "vanilla-js"
+  ],
+  "author": "",
+  "license": "MIT"
+}
