@@ -27,6 +27,15 @@ export function isLiveSiteKey(key = TURNSTILE_SITE_KEY) {
   return typeof key === 'string' && key.length > 0 && !key.includes('PLACEHOLDER');
 }
 
+export function shouldUnlockForTurnstileCallback(isSubmitting) {
+  return !isSubmitting;
+}
+
+export function statusForResponse(response) {
+  if (response.status === 422) return 'form.status.invalid';
+  return 'form.status.delivery';
+}
+
 function setStatus(node, key, live = 'polite') {
   if (!key) {
     node.textContent = '';
@@ -76,7 +85,11 @@ function loadTurnstileScript() {
   });
 }
 
-export function initContactForm(root = document) {
+export function initContactForm(root = document, {
+  endpoint = FORMSPREE_ENDPOINT,
+  siteKey = TURNSTILE_SITE_KEY,
+  turnstile = window.turnstile,
+} = {}) {
   const form = root.querySelector('#contact-form');
   if (!form) return null;
 
@@ -87,8 +100,8 @@ export function initContactForm(root = document) {
   const turnstileLabel = root.querySelector('#contact-turnstile-label');
   const state = { locked: false, widgetId: null, focusingInvalid: false };
 
-  if (isLiveFormspree(FORMSPREE_ENDPOINT)) {
-    form.action = FORMSPREE_ENDPOINT;
+  if (isLiveFormspree(endpoint)) {
+    form.action = endpoint;
   }
 
   function lock() {
@@ -108,32 +121,32 @@ export function initContactForm(root = document) {
   }
 
   function token() {
-    if (!isLiveSiteKey() || !window.turnstile || state.widgetId === null) return '';
+    if (!isLiveSiteKey(siteKey) || !turnstile || state.widgetId === null) return '';
     try {
-      return window.turnstile.getResponse(state.widgetId) || '';
+      return turnstile.getResponse(state.widgetId) || '';
     } catch {
       return '';
     }
   }
 
   function resetTurnstile() {
-    if (!window.turnstile || state.widgetId === null) return;
+    if (!turnstile || state.widgetId === null) return;
     try {
-      window.turnstile.reset(state.widgetId);
+      turnstile.reset(state.widgetId);
     } catch {
       /* Widget may already be gone. */
     }
   }
 
   function onTurnstileExpired() {
-    unlock();
+    if (shouldUnlockForTurnstileCallback(state.locked)) unlock();
     showRetry(true);
     setStatus(status, 'form.status.turnstileExpired', 'assertive');
     status.focus();
   }
 
   function onTurnstileError() {
-    unlock();
+    if (shouldUnlockForTurnstileCallback(state.locked)) unlock();
     showRetry(true);
     setStatus(status, 'form.status.turnstileError', 'assertive');
     status.focus();
@@ -141,7 +154,7 @@ export function initContactForm(root = document) {
 
   function widgetOptions() {
     return {
-      sitekey: TURNSTILE_SITE_KEY,
+      sitekey: siteKey,
       theme: 'dark',
       language: resolveLang(),
       'expired-callback': onTurnstileExpired,
@@ -156,34 +169,29 @@ export function initContactForm(root = document) {
   }
 
   function syncWidgetLanguage() {
-    if (!window.turnstile || state.widgetId === null || !slot) return;
-    window.turnstile.remove(state.widgetId);
+    if (!turnstile || state.widgetId === null || !slot) return;
+    turnstile.remove(state.widgetId);
     state.widgetId = null;
-    state.widgetId = window.turnstile.render(slot, widgetOptions());
+    state.widgetId = turnstile.render(slot, widgetOptions());
   }
 
   async function setupTurnstile() {
-    if (!isLiveSiteKey()) {
+    if (!isLiveSiteKey(siteKey)) {
       if (turnstileLabel) turnstileLabel.hidden = true;
       if (slot) slot.hidden = true;
       return;
     }
     try {
-      const api = await loadTurnstileScript();
+      const api = turnstile ?? await loadTurnstileScript();
+      turnstile = api;
       renderWidget(api);
     } catch {
       onTurnstileError();
     }
   }
 
-  function statusForResponse(response) {
-    if (response.status === 429) return 'form.status.quota';
-    if (response.status === 422) return 'form.status.invalid';
-    return 'form.status.delivery';
-  }
-
   async function deliver() {
-    const response = await fetch(FORMSPREE_ENDPOINT, {
+    const response = await fetch(endpoint, {
       method: 'POST',
       body: new FormData(form),
       headers: { Accept: 'application/json' },
@@ -215,13 +223,13 @@ export function initContactForm(root = document) {
     if (state.locked) return;
     if (!form.checkValidity()) return;
 
-    if (!isLiveFormspree()) {
+    if (!isLiveFormspree(endpoint)) {
       setStatus(status, 'form.status.unavailable', 'assertive');
       status.focus();
       return;
     }
 
-    if (!isLiveSiteKey() || !token()) {
+    if (!isLiveSiteKey(siteKey) || !token()) {
       showRetry(true);
       setStatus(status, 'form.status.turnstileError', 'assertive');
       status.focus();
@@ -256,6 +264,7 @@ export function initContactForm(root = document) {
   });
 
   retry?.addEventListener('click', () => {
+    if (state.locked) return;
     unlock();
     showRetry(false);
     setStatus(status, '');

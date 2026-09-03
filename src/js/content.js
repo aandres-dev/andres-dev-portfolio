@@ -210,10 +210,6 @@ export const content = {
     es: 'La verificación no está disponible. Inténtalo de nuevo.',
     en: 'Verification is unavailable. Try again.',
   },
-  'form.status.quota': {
-    es: 'Se alcanzó el límite mensual de mensajes. Inténtalo más tarde.',
-    en: 'The monthly message limit was reached. Try again later.',
-  },
   'form.status.network': {
     es: 'No hay conexión. Inténtalo de nuevo.',
     en: 'There is no connection. Try again.',
