@@ -1,5 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
+import { readFile } from 'node:fs/promises';
 import { initContactForm } from '../src/js/form.js';
 
 function element() {
@@ -104,4 +105,16 @@ test('handles 429 and preserves the lock through expiry/error callbacks and Retr
     await submission;
     assert.equal(state.locked, false, `${callbackName} may unlock after fetch settles`);
   }
+});
+
+test('no-JS contact markup never posts to a placeholder provider endpoint', async () => {
+  const markup = await readFile(new URL('../src/sections/contact.html', import.meta.url), 'utf8');
+  const action = /<form\b[^>]*\baction="([^"]*)"/.exec(markup);
+
+  assert.equal(
+    action,
+    null,
+    'contact.html must not ship a form action; form.js sets it only for a live endpoint',
+  );
+  assert.match(markup, /<noscript>/, 'contact.html must tell no-JS visitors the form needs JavaScript');
 });

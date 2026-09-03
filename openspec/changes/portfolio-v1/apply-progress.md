@@ -461,3 +461,27 @@ This record supersedes the false-positive completion claim in “Recovery PR 1 �
 - Implementation diff: 16 changed lines (4 additions, 12 deletions); records add 40 changed lines, for 56 authored changed lines total. This is below the 400-line limit; no `size:exception` is requested.
 - No commit, push, PR, deploy, history rewrite, provider ID, asset, `.agents/`, or `.codegraph/` change occurred. Unrelated untracked `.agents/` and `.codegraph/` remain excluded.
 - Browser limitation remains: visual reflow at 768–1024px needs an independently configured browser harness before release verification. This static proof does not complete tasks 4.6 or 4.10.
+
+## 2026-09-03 — No-JS placeholder submission fix (PR 3 partial)
+
+Owner instruction: continue without the pending inputs (approved assets, Formspree Target Email, Turnstile keys). Those inputs remain unavailable, so tasks 2.6-2.8, 3.5, 3.6, 4.6, 4.9, 4.10 and the provider half of 4.5 stay blocked and unchecked. The work below is the portion of task 4.5 that needs no provider value.
+
+| Task | Marker | Evidence |
+|---|---|---|
+| 4.5 No-JS submission never targets a placeholder | `- [ ]` (partial) | `src/sections/contact.html` no longer ships a `action` attribute, so a scripting-disabled browser can no longer POST a hiring message to `https://formspree.io/f/FORMSPREE_FORM_ID_PLACEHOLDER`. A `noscript` notice now states that the form requires JavaScript. Remains unchecked because proving delivery to staging still needs a live Formspree ID. |
+
+### Work Unit Evidence
+
+| Evidence | Result |
+|---|---|
+| Focused test command and exact result | `node --test test/form.test.js`: 2 tests, 2 pass, 0 fail. New case `no-JS contact markup never posts to a placeholder provider endpoint` was authored RED against the placeholder `action` and passed after the markup fix. |
+| Runtime harness command/scenario and exact result | N/A - no browser automation harness is configured. Static proof only: `grep -c FORMSPREE_FORM_ID_PLACEHOLDER dist/index.html` returned `0`, and `dist/index.html:84` carries the `noscript` fallback. |
+| Rollback boundary | Revert `src/sections/contact.html` and the added case in `test/form.test.js`; no provider ID, asset, deployment, or parent-owned work is affected. |
+
+### Verification and accounting
+
+- `npm run check`: exit 0; 9 HTML files, 0 errors, 3 expected include-landmark warnings.
+- Defect corrected: with JavaScript enabled, `src/js/form.js:225` already intercepted the placeholder and surfaced `form.status.unavailable` without sending. Without JavaScript the browser submitted natively to the dead placeholder endpoint, losing the message silently. Task 4.5 requires "never a placeholder", so this path was in contract.
+- The `FORMSPREE_ENDPOINT` and `TURNSTILE_SITE_KEY` placeholders remain in `src/js/form.js` by design; `initContactForm` assigns `form.action` only when `isLiveFormspree` passes.
+- Copy is Spanish because `noscript` cannot be translated by the JavaScript i18n layer and `DEFAULT_LANG` is `es`.
+- No commit, push, PR, deploy, history rewrite, provider ID, or asset change occurred in this unit.

@@ -1,7 +1,10 @@
 <section id="contact" aria-labelledby="contact-heading">
   <h2 id="contact-heading" data-i18n="form.heading">Contacto laboral</h2>
   <p data-i18n="form.lede">Para oportunidades laborales, envía un mensaje con este formulario.</p>
-  <form id="contact-form" class="contact-form" method="post" action="https://formspree.io/f/FORMSPREE_FORM_ID_PLACEHOLDER" aria-describedby="contact-privacy contact-status">
+  <noscript>
+    <p class="form-status">Este formulario necesita JavaScript para enviarse. Actívalo y vuelve a cargar la página.</p>
+  </noscript>
+  <form id="contact-form" class="contact-form" method="post" aria-describedby="contact-privacy contact-status">
     <div class="field">
       <label for="contact-name" data-i18n="form.name">Nombre</label>
       <input id="contact-name" name="name" type="text" required autocomplete="name" aria-describedby="contact-name-error">

@@ -70,7 +70,7 @@ Do not edit `script/build.js` (read-only) or `script/validate.js` (read-only).
 - [x] 4.2 RED: add `test/form.test.js` cases proving 429 maps to generic provider failure and Turnstile expiry/error cannot unlock an in-flight fetch. <!-- sdd-owner: implementation -->
 - [x] 4.3 GREEN: update `src/js/form.js` and `src/js/content.js` so callbacks preserve the submit lock until fetch settles and 429 is not described as monthly quota exhaustion. <!-- sdd-owner: implementation -->
 - [ ] 4.4 Parent: configure the private Formspree Target Email and Turnstile secret plus staging public IDs; disclose no private value. <!-- sdd-owner: parent -->
-- [ ] 4.5 Configure staged public IDs in `src/sections/contact.html` and `src/js/form.js`; prove no-JS submission reaches staging, never a placeholder. <!-- sdd-owner: implementation -->
+- [ ] 4.5 Configure staged public IDs in `src/sections/contact.html` and `src/js/form.js`; prove no-JS submission reaches staging, never a placeholder. <!-- sdd-owner: implementation --> (partial: the placeholder no-JS POST is removed; staging delivery proof still needs a live Formspree ID)
 - [ ] 4.6 Verify task 3.4 at runtime in `src/sections/contact.html` and `src/js/form.js`: ES/EN, keyboard/focus, reduced motion, no-JS, retry, expiry, rejection, and single-submit behavior. <!-- sdd-owner: implementation -->
 - [x] 4.7 Correct `src/css/site.css` and `src/css/tokens.css` for ≥4.5:1 required accent text and an unclipped wrapping header at intermediate widths; browser-check 768–1024px. <!-- sdd-owner: implementation -->
 - [x] 4.8 Correct `src/js/content.js` and `src/sections/hero.html`: remove em dashes and duplicate CTA intent while retaining one primary hiring path in both languages. <!-- sdd-owner: implementation -->
