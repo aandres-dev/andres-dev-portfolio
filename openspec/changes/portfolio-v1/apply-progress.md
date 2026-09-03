@@ -485,3 +485,54 @@ Owner instruction: continue without the pending inputs (approved assets, Formspr
 - The `FORMSPREE_ENDPOINT` and `TURNSTILE_SITE_KEY` placeholders remain in `src/js/form.js` by design; `initContactForm` assigns `form.action` only when `isLiveFormspree` passes.
 - Copy is Spanish because `noscript` cannot be translated by the JavaScript i18n layer and `DEFAULT_LANG` is `es`.
 - No commit, push, PR, deploy, history rewrite, provider ID, or asset change occurred in this unit.
+
+## 2026-09-03 - Design reset and taste-skill authority
+
+Owner instruction: undo the built site, keep the commits and the task plan, then
+reorganize the tasks so the taste-skill design authority is mandatory at every
+step. Owner selected "delete src/ in a new commit": the 9 existing commits are
+preserved and nothing is rewritten.
+
+### Root cause of the reset
+
+The V1 site was accessible and passed every automated gate, but it looked
+generic. The cause was structural, not aesthetic judgement:
+
+- 14 taste-skill design skills sat in `.agents/skills/`, created 2026-09-03
+  00:40, fourteen hours before the site was built at 14:00.
+- Claude Code loads skills from `.claude/skills/`, which did not exist in this
+  repository. `.agents/` is the convention of other tools, so the skills were
+  invisible to the agent and were never consulted.
+- The only references to `.agents/` in this file were exclusion notes stating
+  that no `.agents/` change occurred. It was treated as foreign, never as a
+  source of design authority.
+- Measured consequences in the discarded CSS: `border-radius` 0 occurrences,
+  `box-shadow` 0 occurrences, `transition` 1 occurrence across 433 lines. The
+  font stack requested "Segoe UI" and "Helvetica Neue"; `fc-match` resolved both
+  to `LiberationSans-Regular.ttf`, so the entire site rendered in an Arial clone.
+  `.hero-mass` was an empty 12rem decorative div standing in for the unapproved
+  portrait.
+
+### Actions
+
+| Action | Result |
+|---|---|
+| Install the design authority | `npx skills add https://github.com/Leonxlnx/taste-skill` exited 0; 14 skills vendored in `.agents/skills/`, symlinked into `.claude/skills/`, pinned by `skills-lock.json` with a SHA-256 per skill. Verified `.claude/skills/design-taste-frontend/SKILL.md` resolves. |
+| Reset the implementation | `git rm -r src` (15 files) and `rm -rf dist`. History, specs, tooling, and `test/form.test.js` retained. |
+| Ignore the local index | Added `.codegraph/` to `.gitignore`. |
+| Rewrite the plan | `tasks.md` replaced: 79 lines to 194. New Phase 0 through Phase 5 structure with a blocking MANDATORY DESIGN AUTHORITY section, a per-skill authority table, a six-step non-negotiable sequence for every implementation task, and five explicit owner decisions D-1 through D-5. |
+
+### Verification and accounting
+
+- `npm run check` is expected to fail until Phase 1 restores `src/`. This is the
+  intended reset state, not a regression.
+- `test/form.test.js` is RED for the same reason: it imports `src/js/form.js`.
+  It is retained deliberately as the binding behaviour spec for Phase 3. Its two
+  cases must pass unmodified; weakening a case to make it green is prohibited.
+- Standing conflict rule recorded: the accessibility contract outranks the skill
+  wherever they collide, and any deviation must be justified here.
+- Open collision recorded as D-2: the skill's pre-flight demands real images and
+  bans pure-text minimalism, while the asset tasks remain blocked on owner
+  approval. Fabricating images or declaring a false pre-flight pass is
+  prohibited.
+- No push, no PR, no history rewrite, no provider ID, and no asset change.
