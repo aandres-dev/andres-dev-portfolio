@@ -274,6 +274,91 @@ footer p {
   margin: 0;
 }
 
+#contact {
+  padding-right: clamp(var(--page-pad), 10vw, 7rem);
+}
+
+.contact-form {
+  display: grid;
+  gap: var(--space-4);
+  max-width: 28rem;
+}
+
+.field {
+  display: grid;
+  gap: var(--space-2);
+}
+
+.field label,
+.turnstile-label {
+  margin: 0;
+  font-weight: 650;
+}
+
+.field input,
+.field textarea {
+  width: 100%;
+  padding: var(--space-3) var(--space-4);
+  border: 1px solid var(--color-border);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font: inherit;
+}
+
+.field textarea {
+  min-height: 8rem;
+  resize: vertical;
+}
+
+.field input[aria-invalid="true"],
+.field textarea[aria-invalid="true"] {
+  border-color: var(--color-accent);
+}
+
+.field-error {
+  margin: 0;
+  color: var(--color-accent);
+  font-weight: 650;
+}
+
+.form-privacy {
+  margin: 0;
+  color: var(--color-muted);
+}
+
+.form-status {
+  margin: 0;
+  min-height: 1.5em;
+  font-weight: 650;
+}
+
+.form-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  align-items: center;
+}
+
+button.cta {
+  font: inherit;
+  border: 0;
+  cursor: pointer;
+}
+
+button.cta:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.form-retry {
+  padding: 0.7rem 1.25rem;
+  border: 1px solid var(--color-border);
+  background: transparent;
+  color: var(--color-text);
+  font: inherit;
+  cursor: pointer;
+}
+
 @media (max-width: 767px) {
   header {
     max-height: none;
@@ -292,7 +377,8 @@ footer p {
 
   #story,
   #method,
-  #learning {
+  #learning,
+  #contact {
     padding-left: var(--page-pad);
     padding-right: var(--page-pad);
     margin-left: 0;
