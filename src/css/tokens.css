@@ -1,0 +1,35 @@
+:root {
+  --color-dark-void: #14141c;
+  --color-gluon-grey: #1e1e28;
+  --color-slate-grey: #3c3c48;
+  --color-dusty-grey: #8c8c98;
+  --color-snow: #f3f3f7;
+  --color-liquid-lava: #e24e1b;
+
+  --color-bg: var(--color-dark-void);
+  --color-surface: var(--color-gluon-grey);
+  --color-border: var(--color-slate-grey);
+  --color-muted: var(--color-dusty-grey);
+  --color-text: var(--color-snow);
+  --color-accent: var(--color-liquid-lava);
+
+  --font-sans: "Segoe UI", "Helvetica Neue", ui-sans-serif, system-ui, sans-serif;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-6: 1.5rem;
+  --focus-ring: 2px solid var(--color-liquid-lava);
+  --focus-offset: 0.2rem;
+}
+
+html {
+  color-scheme: dark;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-sans);
+}
+
+:focus-visible {
+  outline: var(--focus-ring);
+  outline-offset: var(--focus-offset);
+}
