@@ -17,6 +17,7 @@ jobs:
       # CSP hashes, markup semantics, payload budgets and form behaviour.
       # No dependencies needed: these run on the Node standard library.
       - run: node script/csp.js --check
+      - run: node script/build-i18n.js --check
       - run: node test/markup.test.js
       - run: node test/stress-audit.js
       - run: node test/form.test.js

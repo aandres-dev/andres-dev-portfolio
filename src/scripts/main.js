@@ -334,50 +334,29 @@
     });
   }
 
-  // 11. Multi-Language Switcher (EN primary / ES secondary)
+  // 11. Language switch (EN at /, ES at /es/)
   function initLanguageSwitcher() {
     const btns = document.querySelectorAll('[data-lang-btn]');
-    const items = document.querySelectorAll('[data-es]');
-    if (!btns.length || !items.length) return;
+    if (!btns.length) return;
 
-    items.forEach(el => {
-      if (!el.dataset.en) {
-        el.dataset.en = el.dataset.i18nHtml ? el.innerHTML : el.textContent.trim();
-      }
+    // Each language is a real URL, so the switch navigates instead of swapping
+    // text in place. Swapping would leave a Spanish page sitting at the English
+    // canonical, which is exactly the mismatch the /es/ build exists to remove.
+    const isEs = document.documentElement.lang === 'es';
+    const target = { en: '/', es: '/es/' };
+
+    btns.forEach(b => {
+      const lang = b.dataset.langBtn;
+      const active = (lang === 'es') === isEs;
+      b.classList.toggle('is-active', active);
+      b.setAttribute('aria-pressed', active ? 'true' : 'false');
+      b.addEventListener('click', () => {
+        if (active) return;
+        window.location.href = target[lang] + window.location.hash;
+      });
     });
 
-    function setLang(lang) {
-      const isEs = lang === 'es';
-      document.documentElement.lang = isEs ? 'es' : 'en';
-
-      items.forEach(el => {
-        const val = isEs ? el.dataset.es : el.dataset.en;
-        if (val) {
-          if (el.dataset.i18nHtml) {
-            el.innerHTML = val;
-          } else {
-            el.textContent = val;
-          }
-        }
-      });
-
-      btns.forEach(b => {
-        const active = b.dataset.langBtn === lang;
-        b.classList.toggle('is-active', active);
-        b.setAttribute('aria-pressed', active ? 'true' : 'false');
-      });
-      document.querySelectorAll('.lang-switch').forEach(el => el.classList.toggle('is-es', isEs));
-
-      try {
-        localStorage.setItem('preferred-lang', lang);
-      } catch (e) {}
-    }
-
-    btns.forEach(b => b.addEventListener('click', () => setLang(b.dataset.langBtn)));
-
-    try {
-      if (localStorage.getItem('preferred-lang') === 'es') setLang('es');
-    } catch (e) {}
+    document.querySelectorAll('.lang-switch').forEach(el => el.classList.toggle('is-es', isEs));
   }
 
   function initMobileNav() {

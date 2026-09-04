@@ -109,14 +109,38 @@ test('the mobile drawer opens over an opaque panel', async ({ page }, testInfo) 
   await expect(menu).not.toHaveClass(/is-open/);
 });
 
-test('the language switch translates and persists', async ({ page }) => {
+test('the language switch navigates to a real Spanish URL', async ({ page }) => {
+  // Spanish used to be a client-side text swap, so it had no URL: Google saw
+  // English only and hreflang pointed at a page that did not exist.
   await revealControls(page);
   await page.locator('[data-lang-btn="es"]').click();
+
+  await expect(page).toHaveURL(/\/es\/$/);
   await expect(page.locator('html')).toHaveAttribute('lang', 'es');
   await expect(page.locator('#manifesto-heading')).toHaveText(/Conceptos/);
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
+    'href',
+    'https://andres.dev/es/',
+  );
 
-  await page.reload();
-  await expect(page.locator('html')).toHaveAttribute('lang', 'es');
+  await revealControls(page);
+  await page.locator('[data-lang-btn="en"]').click();
+  await expect(page).toHaveURL(/\/$/);
+  await expect(page.locator('html')).toHaveAttribute('lang', 'en');
+});
+
+test('both languages declare the same hreflang set', async ({ page }) => {
+  for (const url of ['/', '/es/']) {
+    await page.goto(url);
+    const links = await page.locator('link[rel="alternate"]').evaluateAll((els) =>
+      els.map((el) => `${el.hreflang}=${el.href}`).sort(),
+    );
+    expect(links).toEqual([
+      'en=https://andres.dev/',
+      'es=https://andres.dev/es/',
+      'x-default=https://andres.dev/',
+    ]);
+  }
 });
 
 test('the theme switch toggles and persists', async ({ page }) => {

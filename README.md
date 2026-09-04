@@ -16,10 +16,11 @@ python3 -m http.server 8000    # serve the repository root
 npm test                       # CSP hashes + markup audit + payload audit
 node test/form.test.js         # contact form behaviour
 npm run csp                    # regenerate _headers after editing an inline block
+npm run i18n                   # regenerate es/index.html after editing index.html
 npm run e2e                    # browser + accessibility, needs npm ci first
 ```
 
-Expected: **21/21** markup, **8/8** payload, **2/2** form, **28/28** browser.
+Expected: **21/21** markup, **8/8** payload, **2/2** form, **30/30** browser.
 
 `file://` mostly renders, but anchors and the form behave differently. Use HTTP
 to verify anything.
@@ -141,6 +142,36 @@ CI runs the dependency-free audits and this suite as separate jobs
 
 ---
 
+## Two languages, two URLs
+
+English is `/`. Spanish is `/es/`, generated from `index.html`:
+
+```bash
+npm run i18n                       # write es/index.html
+node script/build-i18n.js --check  # runs inside npm test
+```
+
+The Spanish text lives in `data-es` attributes and the switch used to apply it
+in the browser. That is enough for a visitor and useless for a crawler: with no
+distinct URL, Google indexes English only, and the `hreflang` advertising
+Spanish at `/` was an unbacked claim. Both pages now declare the same, honest
+set.
+
+Because each language is a real URL, **the switch navigates rather than
+swapping text** — swapping would leave a Spanish page sitting at the English
+canonical, the exact mismatch this build removes. That also made the switcher
+smaller: JS dropped to 15.4 KB.
+
+**Edit `index.html` and the Spanish copy goes stale**, so `--check` runs in the
+suite. Head strings have no element content to translate, so the four `<meta>`
+and `<title>` strings are listed in `script/build-i18n.js`; the check fails when
+an English original no longer matches.
+
+Paths are root-absolute (`/src/...`, `/assets/...`) so one document works from
+both directories.
+
+---
+
 ## Security headers
 
 `_headers` is generated, never hand-edited:
@@ -173,6 +204,7 @@ carries no inline handler, so the policy cannot quietly regress.
 | `index.html` | The site. The only page. |
 | `404.html` | Error page |
 | `og-image.jpg` | Social preview — regenerate from `script/og-image.html` |
+| `es/index.html` | Generated Spanish page — never edit, run `npm run i18n` |
 | `src/styles/` | `main.css` imports five partials in cascade order |
 | `src/scripts/main.js` | All behaviour except the form and the theme |
 | `src/js/form.js` | Contact form. The only module with behaviour tests. |
@@ -192,10 +224,8 @@ Listed on purpose. Undocumented dead code is worse than documented dead code.
 
 | Item | Status |
 | --- | --- |
-| `script/build.js` | Unused. `index.html` has no `@include`, no `dist/` is produced. |
-| `src/sections/contact.html` | Referenced by nothing. The form is inline in `index.html`. |
 | LinkedIn button | Deliberately unshipped. Carries `hidden`, has no `href`, so it is inert and out of the tab order. To publish: add `href`, remove `hidden`. |
-| `hreflang` | Advertises English and Spanish at the same URL. Spanish is applied client-side, so no second URL exists. Either serve a real `/es/` or drop the tags. |
+| `form.js` validation branch | Unreachable in a browser. With no `novalidate`, constraint validation refuses the submit and the event never fires, so `setStatus('validation')` never runs. Add `novalidate` if the custom message is wanted. |
 
 ---
 
