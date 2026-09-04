@@ -24,5 +24,6 @@ openspec/
 skills-lock.json
 AGENTS.md
 
-# CV source (the site serves assets/docs/andres-lopez-cv.pdf)
+# CV source and the downloadable PDF stay local until products are registered
 cv/
+assets/docs/

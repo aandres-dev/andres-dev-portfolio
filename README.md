@@ -30,14 +30,14 @@ Expected: **21/21** markup, **9/9** payload, **2/2** form, **30/30** browser
 | Formspree | The endpoint is a public mailbox id, not an email address. `form.js` refuses to post unless the URL matches the expected shape. |
 | Turnstile | Wired, unconfigured. The `_gotcha` honeypot handles spam today. |
 | Fonts | Four self-hosted variable `woff2` files. No Google Fonts, no third-party origin. |
-| CV source | The `cv/` working files stay local. The site serves `assets/docs/andres-lopez-cv.pdf`. |
+| CV | Working files and PDF stay local. The public page does not list unpublished products. |
 | Agent files | `.agents/`, `.claude/`, `openspec/`, and `AGENTS.md` stay local. |
 | pnpm | Lockfile and CI use pnpm, not npm. |
 
 ## Checklist
 
 - [ ] `pnpm test` is green after your edit
-- [ ] `pnpm i18n` if you changed `index.html` (98 `data-es` attributes)
+- [ ] `pnpm i18n` if you changed `index.html` (81 `data-es` attributes)
 - [ ] `pnpm csp` if you changed an inline `<script>` or `<style>`
 - [ ] Comments still say what the code does, one line, two at most (`pnpm comments`)
 - [ ] `node script/validate-commit-attribution.js` — no `Co-Authored-By` / Claude-Session in history
@@ -113,7 +113,7 @@ CI runs audits and this suite as separate jobs (`.github/workflows/ci.yml`).
 | `src/scripts/main.js` | Behaviour except form and theme |
 | `src/js/form.js` | Contact form |
 | `src/js/theme.js` | Theme switch |
-| `assets/docs/andres-lopez-cv.pdf` | Downloadable CV |
+
 | `test/` | Markup, payload, form, browser |
 
 ## Loose ends

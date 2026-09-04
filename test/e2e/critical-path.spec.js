@@ -62,7 +62,7 @@ test('the skip link stays hidden until focused', async ({ page }) => {
 test('project cards share one hover behaviour', async ({ page }) => {
   // Guards the layer demotion and the stagger that killed the hover lift.
   const cards = page.locator('.project-card.spotlight-card');
-  await expect(cards).toHaveCount(3);
+  await expect(cards).toHaveCount(1);
 
   const state = await cards.evaluateAll((els) =>
     els.map((el) => {
