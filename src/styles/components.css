@@ -90,6 +90,7 @@
   ::view-transition-old(root){animation:none;z-index:1;mix-blend-mode:normal}
   ::view-transition-new(root){animation:theme-iris .38s cubic-bezier(.32,.72,0,1) both;z-index:9999;mix-blend-mode:normal}
   @keyframes theme-iris{from{clip-path:circle(0 at var(--theme-x,88%) var(--theme-y,6%))}to{clip-path:circle(150vmax at var(--theme-x,88%) var(--theme-y,6%))}}
+  .hero-canvas,.film-grain{view-transition-name:none}
   html.theme-switching *{transition:none!important}@media (prefers-reduced-motion:reduce){.island-knob,.island-orb,.btn-orb{transition:none}::view-transition-old(root),::view-transition-new(root){animation:none}}
 
   .eyebrow {

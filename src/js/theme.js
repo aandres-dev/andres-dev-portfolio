@@ -19,6 +19,7 @@ function initThemeSwitcher() {
 
   function applyTheme(theme) {
     const light = theme === 'light';
+    document.documentElement.classList.add('theme-switching');
     if (light) document.documentElement.setAttribute('data-theme', 'light');
     else document.documentElement.removeAttribute('data-theme');
     btn.classList.toggle('is-light', light);
@@ -26,6 +27,11 @@ function initThemeSwitcher() {
     paintIcons(light);
     if (meta) meta.setAttribute('content', light ? '#f7f6f2' : '#0a0a0e');
     try { localStorage.setItem('preferred-theme', theme); } catch (e) {}
+    requestAnimationFrame(function () {
+      requestAnimationFrame(function () {
+        document.documentElement.classList.remove('theme-switching');
+      });
+    });
   }
 
   btn.addEventListener('click', function (event) {
@@ -48,9 +54,7 @@ function initThemeSwitcher() {
 
     if (typeof document.startViewTransition === 'function') {
       try {
-        const tx = document.startViewTransition(run);
-        window.setTimeout(run, 400);
-        if (tx && tx.finished) tx.finished.catch(function () {});
+        document.startViewTransition(run);
         return;
       } catch (e) {}
     }
