@@ -1,22 +1,28 @@
 @layer utilities {
+  /* The reveal slides with `translate`, not `transform`, on purpose. These
+     rules live in the utilities layer, which outranks components, so writing
+     `transform` here would pin every revealed element flat and cancel the
+     hover lift on .spotlight-card. `translate` is its own property and
+     composes with transform instead of replacing it. */
+
   /* Progressive Enhancement: 100% visible by default (Zero blank page risk) */
   [data-animate="reveal"] {
     opacity: 1;
-    transform: none;
+    translate: none;
   }
 
   /* Only hide and animate when JavaScript has actively initialized */
   html.js-ready [data-animate="reveal"]:not([data-visible="true"]) {
     opacity: 0;
-    transform: translateY(24px);
+    translate: 0 24px;
     transition: opacity var(--duration-slow) var(--ease-out-expo),
-                transform var(--duration-slow) var(--ease-out-expo);
-    will-change: opacity, transform;
+                translate var(--duration-slow) var(--ease-out-expo);
+    will-change: opacity, translate;
   }
 
   html.js-ready [data-animate="reveal"][data-visible="true"] {
     opacity: 1;
-    transform: translateY(0);
+    translate: 0 0;
   }
 
   /* Stagger Delays for Children */
@@ -57,7 +63,7 @@
     [data-animate="reveal"],
     html.js-ready [data-animate="reveal"]:not([data-visible="true"]) {
       opacity: 1 !important;
-      transform: none !important;
+      translate: none !important;
       transition: none !important;
       will-change: auto !important;
     }
