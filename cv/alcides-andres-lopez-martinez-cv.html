@@ -80,7 +80,16 @@
       height: 2px;
       width: 28mm;
       background: var(--crimson);
-      margin: 0 auto 5.5mm;
+      margin: 0 auto 4mm;
+    }
+
+    .portrait {
+      display: block;
+      width: 34mm;
+      height: 34mm;
+      object-fit: cover;
+      object-position: center 18%;
+      margin: 0 auto 3.5mm;
     }
 
     h1 {
@@ -194,6 +203,7 @@
     <aside class="stack side-left">
       <section class="card card-identity">
         <div class="laser" aria-hidden="true"></div>
+        <img class="portrait" src="../assets/images/andres.dev.jpg" alt="Andrés López">
         <h1>ANDRÉS<br>LÓPEZ</h1>
         <p class="role">Orquestador de software con IA</p>
         <div class="contact">
