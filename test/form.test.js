@@ -109,13 +109,22 @@ test('handles 429 and preserves the lock through expiry/error callbacks and Retr
 });
 
 test('no-JS contact markup never posts to a placeholder provider endpoint', async () => {
-  const markup = await readFile(new URL('../src/sections/contact.html', import.meta.url), 'utf8');
-  const action = /<form\b[^>]*\baction="([^"]*)"/.exec(markup);
+  // Reads index.html, the file actually served. This assertion used to read
+  // src/sections/contact.html, which no page loads, so it graded markup no
+  // visitor ever received.
+  const markup = await readFile(new URL('../index.html', import.meta.url), 'utf8');
+  const form = /<form\b[^>]*id="contact-form"[^>]*>/.exec(markup);
 
+  assert.ok(form, 'index.html must ship the contact form');
   assert.equal(
-    action,
-    null,
-    'contact.html must not ship a form action; form.js sets it only for a live endpoint',
+    /\baction=/.test(form[0]),
+    false,
+    'the form must not ship an action; form.js sets it only for a live endpoint',
   );
-  assert.match(markup, /<noscript>/, 'contact.html must tell no-JS visitors the form needs JavaScript');
+  assert.equal(
+    /\son[a-z]+=/i.test(form[0]),
+    false,
+    'the form must not carry inline handlers; they would force unsafe-inline in the CSP',
+  );
+  assert.match(markup, /<noscript>/, 'index.html must tell no-JS visitors the form needs JavaScript');
 });
