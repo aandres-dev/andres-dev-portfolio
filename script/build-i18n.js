@@ -1,19 +1,5 @@
-// Generates es/index.html from index.html.
-//
-// The Spanish text already lives in the page, inside data-es attributes, and
-// the language switch applies it in the browser. That is enough for a visitor
-// and useless for a crawler: without a distinct URL, Google indexes English
-// only and any hreflang pointing Spanish at "/" is an unbacked claim.
-//
-// This produces that URL by applying the same substitution the switcher does,
-// at build time, so both versions come from one source of truth.
-//
-//   node script/build-i18n.js          write es/index.html
-//   node script/build-i18n.js --check  exit 1 if it is stale
-//
-// Metadata cannot live in data-es: <meta> carries its text in an attribute,
-// not as element content. Those few strings are listed here instead, and
-// --check fails when one is missing.
+// Writes es/index.html by applying every data-es attribute of index.html.
+// Run with --check to exit 1 when the Spanish copy is stale.
 
 import fs from 'node:fs';
 import path from 'node:path';
@@ -25,8 +11,7 @@ const OUT = path.join(OUT_DIR, 'index.html');
 
 const ORIGIN = 'https://andres.dev';
 
-// Head strings with no element content to translate. Keep in sync by hand;
-// --check verifies each English original is still present before swapping.
+// Head strings, which live in attributes and so cannot use data-es.
 const META = {
   'andres.dev — AI Orchestrator &amp; Architectural Director':
     'andres.dev — Orquestador de IA &amp; Director de Arquitectura',
@@ -38,9 +23,7 @@ const META = {
     'Andrés López, Orquestador de software con IA. El humano dirige. La máquina ejecuta.',
 };
 
-// Turns escaped markup back into markup, and nothing else. &amp; is content,
-// not a tag, so it stays escaped — decoding it would emit a bare & into the
-// document. Same for the typographic entities.
+// Turns escaped tags back into markup, leaving every other entity escaped.
 function decodeMarkup(value) {
   return value
     .replace(/&lt;/g, '<')
@@ -48,9 +31,7 @@ function decodeMarkup(value) {
     .replace(/&quot;/g, '"');
 }
 
-// Every data-es element is a leaf: verified against index.html, where the only
-// two carrying markup declare data-i18n-html. So a tag-scoped replacement is
-// safe here and does not need a full parser.
+// Replaces each element's content with its data-es value.
 function translateBody(html) {
   let applied = 0;
   const out = html.replace(
@@ -58,9 +39,7 @@ function translateBody(html) {
     (whole, tag, attrs, spanish, content) => {
       if (/<[a-z]/i.test(content) && !/data-i18n-html/.test(attrs)) return whole;
       applied += 1;
-      // The attribute value is already escaped for HTML, so plain text goes in
-      // verbatim. Only data-i18n-html is meant to become markup, and only that
-      // gets decoded — decoding both would emit a bare & into the document.
+      // Attribute values arrive escaped; only data-i18n-html becomes markup.
       const value = /data-i18n-html/.test(attrs) ? decodeMarkup(spanish) : spanish;
       return `<${tag}${attrs}>${value}</${tag}>`;
     },

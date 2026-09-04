@@ -13,7 +13,7 @@ records the decisions and their costs — not just the commands.
 
 ```bash
 python3 -m http.server 8000    # serve the repository root
-npm test                       # CSP hashes + markup audit + payload audit
+npm test                       # comments + CSP + i18n + markup + payload
 node test/form.test.js         # contact form behaviour
 npm run csp                    # regenerate _headers after editing an inline block
 npm run i18n                   # regenerate es/index.html after editing index.html
@@ -24,6 +24,21 @@ Expected: **21/21** markup, **8/8** payload, **2/2** form, **30/30** browser.
 
 `file://` mostly renders, but anchors and the form behave differently. Use HTTP
 to verify anything.
+
+---
+
+## Comment style
+
+**A comment says what the code does, in one line. Two at most.**
+
+```bash
+npm run comments    # runs inside npm test and in CI
+```
+
+Not why, not the history, not the trade-offs weighed. Those have somewhere
+better to live: the README has room, and `git log` already holds the reasoning
+in full. `script/validate-comments.js` fails the build on any comment block
+over two lines, across HTML, CSS and JS.
 
 ---
 

@@ -109,9 +109,7 @@ test('handles 429 and preserves the lock through expiry/error callbacks and Retr
 });
 
 test('no-JS contact markup never posts to a placeholder provider endpoint', async () => {
-  // Reads index.html, the file actually served. This assertion used to read
-  // src/sections/contact.html, which no page loads, so it graded markup no
-  // visitor ever received.
+  // Reads index.html, the file actually served.
   const markup = await readFile(new URL('../index.html', import.meta.url), 'utf8');
   const form = /<form\b[^>]*id="contact-form"[^>]*>/.exec(markup);
 

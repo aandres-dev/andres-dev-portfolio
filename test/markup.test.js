@@ -1,7 +1,4 @@
-/**
- * Semantic & Zero-Divitis Markup Audit
- * Validates strict semantic structure, landmark elements, and metadata.
- */
+// Validates semantic structure, landmarks and metadata in index.html.
 import fs from 'node:fs';
 import path from 'node:path';
 

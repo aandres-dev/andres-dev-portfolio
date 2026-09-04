@@ -1,16 +1,5 @@
-// Generates _headers, and verifies it still matches index.html.
-//
-// The page keeps two inline blocks on purpose: a script that applies the
-// stored theme before first paint (moving it to a file would reintroduce the
-// flash it exists to prevent) and a style block for the mobile navigation.
-// Both are allowed by SHA-256 hash rather than 'unsafe-inline', so the policy
-// still blocks anything injected later.
-//
-//   node script/csp.js          write _headers
-//   node script/csp.js --check  exit 1 if _headers is stale
-//
-// Run --check in the test suite: editing an inline block without regenerating
-// silently breaks the live page while every local check stays green.
+// Writes _headers with a CSP that allows the inline blocks by SHA-256 hash.
+// Run with --check to exit 1 when _headers no longer matches index.html.
 
 import { createHash } from 'node:crypto';
 import fs from 'node:fs';
@@ -20,6 +9,7 @@ const ROOT = path.resolve(import.meta.dirname, '..');
 const HTML = path.join(ROOT, 'index.html');
 const HEADERS = path.join(ROOT, '_headers');
 
+// Returns the CSP hash of every inline block of that tag.
 function hashesOf(html, tag) {
   const re = new RegExp(`<${tag}(?:\\s[^>]*)?>([\\s\\S]*?)</${tag}>`, 'g');
   const out = [];

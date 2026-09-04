@@ -1,7 +1,4 @@
-/**
- * Performance & Stress Audit
- * Validates payload weights, compositor-only animations, DOM depth, and memory safety.
- */
+// Validates payload budgets, compositor-only animation and observer cleanup.
 import fs from 'node:fs';
 import path from 'node:path';
 
@@ -38,22 +35,13 @@ function runStressAudit() {
   console.log(`- Runtime JS Payload: ${(jsSize / 1024).toFixed(2)} KB`);
   console.log(`- Total Combined Bundle: ${((htmlSize + totalCssSize + jsSize) / 1024).toFixed(2)} KB\n`);
 
-  // The HTML budget is 42KB, not 40KB, because this page carries its Spanish
-  // translation inline: 93 data-es attributes duplicate every string on the
-  // page. That is content, and squeezing markup to fit a tighter number buys
-  // nothing a visitor can feel.
+  // 42KB: the page carries its Spanish translation inline. See the README.
   assert(htmlSize < 42 * 1024, `HTML size is lean (< 42KB)`);
-  // 32KB, not 30KB. The Content-Security-Policy forbids style="" attributes
-  // without style-src-attr 'unsafe-inline', so seven of them moved out of the
-  // markup and into classes. HTML dropped 0.68KB and CSS gained 0.73KB: the
-  // same rules, a different file. A budget that penalises a change security
-  // requires is measuring the wrong thing.
+  // 32KB: the CSP moved seven style attributes out of the markup into classes.
   assert(totalCssSize < 32 * 1024, `Total CSS size is compact (< 32KB)`);
   assert(jsSize < 16 * 1024, `Runtime JS size is ultra-lightweight (< 16KB)`);
 
-  // Text budgets alone were misleading: they passed while the hero portrait
-  // shipped 2.68MB, roughly 32x the combined weight of every file above. The
-  // LCP image gets its own budget so the numbers track what actually loads.
+  // The LCP image gets its own budget: the text budgets ignored 2.68MB.
   const heroImageSize = fs.statSync('assets/images/andres-480.avif').size;
   console.log(`- Hero portrait (LCP, AVIF 1x): ${(heroImageSize / 1024).toFixed(2)} KB`);
   assert(heroImageSize < 40 * 1024, `Hero portrait stays under its own budget (< 40KB)`);
@@ -79,10 +67,7 @@ function runStressAudit() {
 
   assert(!foundDangerous, 'Transitions and animations use compositor-only properties (opacity, transform, color, filter)');
 
-  // 3. JS Memory Safety & Observer Cleanup Audit
-  // Audits the script the page actually loads. These assertions used to read
-  // src/scripts/modules/*.js, which no <script> tag ever loaded, so they
-  // reported on code no visitor ran.
+  // 3. Memory safety, against the script the page actually loads.
   const runtimeJs = fs.readFileSync('src/scripts/main.js', 'utf8');
   assert(runtimeJs.includes('.unobserve('), 'Observer unobserves revealed elements to prevent memory leaks');
   assert(runtimeJs.includes('{ passive: true }'), 'Scroll listener utilizes passive event listeners to avoid thread blocking');

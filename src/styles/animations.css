@@ -1,17 +1,13 @@
 @layer utilities {
-  /* The reveal runs as an animation, never a transition. These rules sit in
-     the utilities layer, which outranks components, so any transition-* or
-     transform this layer declares wins over .spotlight-card and silently
-     disables its hover. Animations are a separate system: they cannot collide
-     with the hover transition, and the stagger becomes an animation-delay that
-     cannot leak into it either. Do not rewrite this as a transition. */
+  /* Reveals animate, never transition: this layer outranks components and
+     would otherwise overwrite the card hover. Do not convert to a transition. */
 
   @keyframes reveal-rise {
     from { opacity: 0; translate: 0 24px; }
     to   { opacity: 1; translate: 0 0; }
   }
 
-  /* Progressive Enhancement: 100% visible by default (Zero blank page risk) */
+  /* Visible by default, so no JS means no blank page. */
   [data-animate="reveal"] {
     opacity: 1;
     translate: none;
@@ -27,7 +23,7 @@
     animation: reveal-rise var(--duration-slow) var(--ease-out-expo) var(--reveal-delay, 0ms) both;
   }
 
-  /* Stagger: an animation-delay, so it never reaches the hover transition */
+  /* Stagger as animation-delay, never transition-delay. */
   [data-stagger="1"] { --reveal-delay: 80ms; }
   [data-stagger="2"] { --reveal-delay: 160ms; }
   [data-stagger="3"] { --reveal-delay: 240ms; }

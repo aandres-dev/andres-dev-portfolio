@@ -1,5 +1,4 @@
-// Every test here covers a defect that actually shipped, not generic coverage.
-// The comment above each one names the regression it would have caught.
+// Covers the defects that actually shipped, one test each.
 
 import { test, expect } from '@playwright/test';
 
@@ -7,8 +6,7 @@ test.beforeEach(async ({ page }) => {
   await page.goto('/');
 });
 
-// Below 1200px the language and theme controls live inside the drawer, so they
-// are not reachable until it is open. Desktop needs no such step.
+// Opens the drawer, where the controls live below 1200px.
 async function revealControls(page) {
   const toggle = page.locator('#nav-toggle');
   if (await toggle.isVisible()) {
@@ -23,8 +21,7 @@ test('the hero renders with its portrait', async ({ page }) => {
   const img = page.locator('.director-photo');
   await expect(img).toBeVisible();
 
-  // The portrait is the LCP element. It shipped as a 2.68MB JPEG rendered into
-  // a 360px box, and later as square variants against a 4:5 CSS box.
+  // Guards the 2.68MB JPEG and the wrong-ratio crops.
   const served = await img.evaluate((el) => el.currentSrc);
   expect(served).toMatch(/\.(avif|webp|jpg)$/);
 
@@ -33,8 +30,7 @@ test('the hero renders with its portrait', async ({ page }) => {
 });
 
 test('no horizontal overflow', async ({ page }) => {
-  // At 320px a grid item with min-width:auto rendered 379px wide inside a
-  // 280px track and clipped the manifesto text. WCAG 1.4.10.
+  // Guards the grid item that clipped the manifesto at 320px.
   const { clientWidth, scrollWidth } = await page.evaluate(() => ({
     clientWidth: document.documentElement.clientWidth,
     scrollWidth: document.documentElement.scrollWidth,
@@ -64,10 +60,7 @@ test('the skip link stays hidden until focused', async ({ page }) => {
 });
 
 test('project cards share one hover behaviour', async ({ page }) => {
-  // Wrapping components.css in @layer demoted it below utilities, which pinned
-  // transform:translateY(0) on revealed cards and killed the hover lift. The
-  // stagger then delayed the hover by 80-160ms on the cards that carried it,
-  // so RondApp felt right and the other two did not.
+  // Guards the layer demotion and the stagger that killed the hover lift.
   const cards = page.locator('.project-card.spotlight-card');
   await expect(cards).toHaveCount(3);
 
@@ -88,9 +81,7 @@ test('project cards share one hover behaviour', async ({ page }) => {
 test('the mobile drawer opens over an opaque panel', async ({ page }, testInfo) => {
   test.skip(testInfo.project.name !== 'mobile', 'drawer only exists below 1200px');
 
-  // backdrop-filter on the header made it the containing block AND the backdrop
-  // root for its position:fixed child, so the drawer painted no background and
-  // the hero text read straight through it.
+  // Guards the backdrop-filter that left the drawer with no background.
   const toggle = page.locator('#nav-toggle');
   const menu = page.locator('#site-menu');
 
@@ -110,8 +101,7 @@ test('the mobile drawer opens over an opaque panel', async ({ page }, testInfo) 
 });
 
 test('the language switch navigates to a real Spanish URL', async ({ page }) => {
-  // Spanish used to be a client-side text swap, so it had no URL: Google saw
-  // English only and hreflang pointed at a page that did not exist.
+  // Guards Spanish having no URL of its own.
   await revealControls(page);
   await page.locator('[data-lang-btn="es"]').click();
 
@@ -156,8 +146,7 @@ test('the theme switch toggles and persists', async ({ page }) => {
 });
 
 test('the contact form posts to the live endpoint', async ({ page }) => {
-  // The endpoint shipped empty, so every submission fell into the failure
-  // branch and told the visitor the message could not be sent.
+  // Guards the empty endpoint that made every submission report failure.
   let posted = null;
   await page.route('https://formspree.io/**', async (route) => {
     posted = { url: route.request().url(), method: route.request().method() };
@@ -174,10 +163,8 @@ test('the contact form posts to the live endpoint', async ({ page }) => {
 });
 
 test('invalid input never leaves the browser', async ({ page }) => {
-  // The form has no novalidate, so the browser's own constraint validation
-  // refuses the submit and shows its native bubble. The submit event never
-  // fires, which means form.js never runs and #contact-status stays empty.
-  // What matters is the guarantee, not who enforces it: nothing is sent.
+  // Constraint validation blocks the submit, so form.js never runs and the
+  // status stays empty. What matters is that nothing is sent.
   let requested = false;
   await page.route('https://formspree.io/**', async (route) => {
     requested = true;
@@ -195,8 +182,7 @@ test('invalid input never leaves the browser', async ({ page }) => {
 });
 
 test('github is a real link and linkedin is inert', async ({ page }) => {
-  // GitHub was a <button> calling window.open: no middle-click, no crawlable
-  // outbound link. LinkedIn is kept in the markup but deliberately unshipped.
+  // Guards GitHub regressing to a button, and LinkedIn shipping early.
   await expect(page.locator('#github-link-btn')).toHaveAttribute(
     'href',
     'https://github.com/aandres-dev',

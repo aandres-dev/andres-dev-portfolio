@@ -16,6 +16,7 @@ jobs:
           node-version: 22
       # CSP hashes, markup semantics, payload budgets and form behaviour.
       # No dependencies needed: these run on the Node standard library.
+      - run: node script/validate-comments.js
       - run: node script/csp.js --check
       - run: node script/build-i18n.js --check
       - run: node test/markup.test.js

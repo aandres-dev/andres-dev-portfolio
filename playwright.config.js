@@ -1,10 +1,7 @@
 import fs from 'node:fs';
 import { defineConfig, devices } from '@playwright/test';
 
-// Prefer a Chromium that is already on the machine. Playwright's own browsers
-// are ~300MB and this suite needs exactly one engine, so a local run reuses the
-// system install. CI has none, so it falls back to `playwright install
-// chromium` and this stays empty.
+// Uses a system Chromium when present, else Playwright's own.
 const systemChromium = process.env.CHROMIUM_PATH || '/usr/bin/chromium';
 const launchOptions = fs.existsSync(systemChromium)
   ? { executablePath: systemChromium }
@@ -29,8 +26,7 @@ export default defineConfig({
       use: { ...devices['Desktop Chrome'], viewport: { width: 1440, height: 900 } },
     },
     {
-      // 320px is the WCAG 1.4.10 reflow floor, and the width where a grid item
-      // with min-width:auto once clipped the manifesto text.
+      // 320px: the WCAG 1.4.10 reflow floor.
       name: 'mobile',
       use: { ...devices['Desktop Chrome'], viewport: { width: 320, height: 780 }, isMobile: false },
     },

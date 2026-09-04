@@ -339,9 +339,7 @@
     const btns = document.querySelectorAll('[data-lang-btn]');
     if (!btns.length) return;
 
-    // Each language is a real URL, so the switch navigates instead of swapping
-    // text in place. Swapping would leave a Spanish page sitting at the English
-    // canonical, which is exactly the mismatch the /es/ build exists to remove.
+    // Each language is its own URL, so the switch navigates.
     const isEs = document.documentElement.lang === 'es';
     const target = { en: '/', es: '/es/' };
 

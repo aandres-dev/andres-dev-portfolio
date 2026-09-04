@@ -1,6 +1,4 @@
-// axe-core would have caught the contrast failure that shipped: the muted
-// token sat at 3.46:1 on the dark canvas, on 14px body copy, against a 4.5:1
-// requirement. Both themes are checked because only the dark one failed.
+// Scans every theme and language for WCAG 2.2 AA violations.
 
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
@@ -13,7 +11,7 @@ function report(violations) {
     .join('\n\n');
 }
 
-// Below 1200px the controls sit inside the drawer and are unreachable closed.
+// Opens the drawer, where the controls live below 1200px.
 async function revealControls(page) {
   const toggle = page.locator('#nav-toggle');
   if (await toggle.isVisible()) await toggle.click();
