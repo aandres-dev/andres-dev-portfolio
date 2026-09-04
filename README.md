@@ -39,6 +39,7 @@ Expected: **21/21** markup, **9/9** payload, **2/2** form, **30/30** browser
 - [ ] `npm run i18n` if you changed `index.html` (98 `data-es` attributes)
 - [ ] `npm run csp` if you changed an inline `<script>` or `<style>`
 - [ ] Comments still say what the code does, one line, two at most (`npm run comments`)
+- [ ] `node script/validate-commit-attribution.js` — no `Co-Authored-By` / Claude-Session in history
 
 ## Before you touch the CSS
 

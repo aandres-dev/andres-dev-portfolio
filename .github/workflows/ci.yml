@@ -11,12 +11,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
       - uses: actions/setup-node@v4
         with:
           node-version: 22
       # CSP hashes, markup semantics, payload budgets and form behaviour.
       # No dependencies needed: these run on the Node standard library.
       - run: node script/validate-comments.js
+      - run: node script/validate-commit-attribution.js
       - run: node script/csp.js --check
       - run: node script/build-i18n.js --check
       - run: node test/markup.test.js
