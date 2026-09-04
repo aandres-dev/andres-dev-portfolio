@@ -85,7 +85,7 @@ hero portrait shipped 2.68 MB — roughly 32× every file they measured, combine
 A budget that ignores the largest asset measures nothing.
 
 **Why HTML is 42 KB, not tighter:** this page carries its Spanish translation
-inline across 93 `data-es` attributes. That is content, not slack.
+inline across 94 `data-es` attributes. That is content, not slack.
 
 ---
 
