@@ -66,6 +66,13 @@
     align-items: start;
   }
 
+  /* Grid items default to min-width:auto, so they refuse to shrink below their
+     min-content width and spill out of the track at 320px. */
+  .grid-manifesto > * {
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
   @media (min-width: 860px) {
     .grid-manifesto {
       grid-template-columns: 5fr 7fr;

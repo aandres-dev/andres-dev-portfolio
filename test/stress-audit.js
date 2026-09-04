@@ -64,14 +64,13 @@ function runStressAudit() {
   assert(!foundDangerous, 'Transitions and animations use compositor-only properties (opacity, transform, color, filter)');
 
   // 3. JS Memory Safety & Observer Cleanup Audit
-  const observerJs = fs.readFileSync('src/scripts/modules/observer.js', 'utf8');
-  assert(observerJs.includes('observer.unobserve'), 'Observer unobserves revealed elements to prevent memory leaks');
-
-  const navJs = fs.readFileSync('src/scripts/modules/navigation.js', 'utf8');
-  assert(navJs.includes('{ passive: true }'), 'Scroll listener utilizes passive event listeners to avoid thread blocking');
-
-  const statsJs = fs.readFileSync('src/scripts/modules/stats.js', 'utf8');
-  assert(statsJs.includes('cancelAnimationFrame'), 'Performance telemetry registers clean animation frame teardown');
+  // Audits the script the page actually loads. These assertions used to read
+  // src/scripts/modules/*.js, which no <script> tag ever loaded, so they
+  // reported on code no visitor ran.
+  const runtimeJs = fs.readFileSync('src/scripts/main.js', 'utf8');
+  assert(runtimeJs.includes('.unobserve('), 'Observer unobserves revealed elements to prevent memory leaks');
+  assert(runtimeJs.includes('{ passive: true }'), 'Scroll listener utilizes passive event listeners to avoid thread blocking');
+  assert(runtimeJs.includes('cancelAnimationFrame'), 'Performance telemetry registers clean animation frame teardown');
 
   console.log(`\nStress & Performance Audit Finished: ${passed} passed, ${failed} failed.`);
   if (failed > 0) process.exit(1);

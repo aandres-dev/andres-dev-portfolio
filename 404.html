@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Page not found — andres.dev</title>
+  <meta name="robots" content="noindex, follow">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230a0a0e'/%3E%3Ctext x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' fill='%23d4af37' font-family='monospace' font-weight='700' font-size='15'%3E%26lt;%26gt;%3C/text%3E%3C/svg%3E">
+  <meta name="theme-color" content="#0a0a0e">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700&family=JetBrains+Mono:wght@400;600&family=Plus+Jakarta+Sans:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="src/styles/main.css">
+  <style>
+    .notfound {
+      min-height: 100svh;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      padding: var(--space-xl) 1.5rem;
+    }
+    .notfound-code {
+      font-family: var(--font-mono);
+      font-size: var(--text-sm);
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--color-crimson);
+      margin: 0 0 1rem;
+    }
+    .notfound h1 {
+      font-family: var(--font-display);
+      font-size: clamp(2.2rem, 7vw, 3.6rem);
+      line-height: 1.02;
+      margin: 0 0 1rem;
+    }
+    .notfound p {
+      color: var(--color-text-secondary);
+      max-width: 46ch;
+      margin: 0 auto 2rem;
+    }
+  </style>
+</head>
+<body>
+  <main class="notfound" id="main-content">
+    <div>
+      <p class="notfound-code">Error 404</p>
+      <h1>This page does not exist</h1>
+      <p>The address you followed does not lead anywhere on this site. Everything lives on the home page.</p>
+      <a href="/" class="btn btn-primary">
+        <span>Back to the home page</span>
+        <span class="btn-orb" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+        </span>
+      </a>
+    </div>
+  </main>
+</body>
+</html>

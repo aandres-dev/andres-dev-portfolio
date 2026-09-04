@@ -334,21 +334,6 @@
     });
   }
 
-  // 10. Obfuscated Outbound Destination Module
-  function initOutboundLinks() {
-    const githubBtn = document.getElementById('github-link-btn');
-    githubBtn?.addEventListener('click', () => {
-      window.open(['https://', 'github.com/', 'aandres-dev'].join(''), '_blank', 'noopener,noreferrer');
-    });
-
-    const linkedinBtn = document.getElementById('linkedin-link-btn');
-    linkedinBtn?.addEventListener('click', () => {
-      const profile = linkedinBtn.getAttribute('data-profile') || '';
-      if (!profile) return;
-      window.open(['https://', 'www.linkedin.com/in/', profile].join(''), '_blank', 'noopener,noreferrer');
-    });
-  }
-
   // 11. Multi-Language Switcher (EN primary / ES secondary)
   function initLanguageSwitcher() {
     const btns = document.querySelectorAll('[data-lang-btn]');
@@ -430,7 +415,6 @@
     initNeuralMesh();
     initTextScramble();
     initMagneticButtons();
-    initOutboundLinks();
     initLanguageSwitcher();
     if (window.initThemeSwitcher) window.initThemeSwitcher();
     if (window.initContactForm) window.initContactForm(document, { endpoint: '', siteKey: '', turnstile: window.turnstile });
