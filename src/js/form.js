@@ -2,12 +2,12 @@ const LIVE_FORMSPREE = /^https:\/\/formspree\.io\/f\/[A-Za-z0-9-]+$/;
 
 const STATUS = {
   success: {
-    en: 'Message sent. I will read it from the Formspree inbox.',
-    es: 'Mensaje enviado. Lo voy a leer en Formspree.',
+    en: 'Message sent. I will get back to you.',
+    es: 'Mensaje enviado. Te respondo pronto.',
   },
   validation: {
     en: 'Check the fields. Something is missing or invalid.',
-    es: 'Revisa los campos. Falta algo o no esta bien.',
+    es: 'Revisa los campos. Falta algo o no está bien.',
   },
   delivery: {
     en: 'The message could not be sent. Try again.',
@@ -15,7 +15,7 @@ const STATUS = {
   },
   turnstile: {
     en: 'Verification expired. Try again.',
-    es: 'La verificacion se vencio. Intenta de nuevo.',
+    es: 'La verificación se venció. Intenta de nuevo.',
   },
 };
 

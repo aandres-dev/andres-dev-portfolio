@@ -417,7 +417,15 @@
     initMagneticButtons();
     initLanguageSwitcher();
     if (window.initThemeSwitcher) window.initThemeSwitcher();
-    if (window.initContactForm) window.initContactForm(document, { endpoint: '', siteKey: '', turnstile: window.turnstile });
+    if (window.initContactForm) {
+      // Public by design: Formspree endpoints are meant to be visible in the
+      // page. It is a mailbox id, never the destination address.
+      window.initContactForm(document, {
+        endpoint: 'https://formspree.io/f/xeaqzrke',
+        siteKey: '',
+        turnstile: window.turnstile,
+      });
+    }
   }
 
   if (document.readyState === 'loading') {
