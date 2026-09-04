@@ -24,6 +24,5 @@ openspec/
 skills-lock.json
 AGENTS.md
 
-# CV source and the downloadable PDF stay local until products are registered
+# CV working files stay local. The sanitized PDF is public.
 cv/
-assets/docs/
