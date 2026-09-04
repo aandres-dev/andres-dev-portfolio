@@ -13,8 +13,9 @@ records the decisions and their costs — not just the commands.
 
 ```bash
 python3 -m http.server 8000    # serve the repository root
-npm test                       # markup audit + payload audit
+npm test                       # CSP hashes + markup audit + payload audit
 node test/form.test.js         # contact form behaviour
+npm run csp                    # regenerate _headers after editing an inline block
 ```
 
 Expected: **21/21** markup checks, **8/8** payload checks, **2/2** form tests.
@@ -75,8 +76,8 @@ The reveal uses `@keyframes reveal-rise` and the stagger is an
 
 | Budget | Limit | Now |
 | --- | --- | --- |
-| `index.html` | 42 KB | 41.0 KB |
-| CSS total | 30 KB | 29.9 KB |
+| `index.html` | 42 KB | 40.3 KB |
+| CSS total | 32 KB | 30.6 KB |
 | `src/scripts/main.js` | 16 KB | 15.8 KB |
 | Hero portrait, AVIF 1x | 40 KB | 17.5 KB |
 
@@ -84,8 +85,10 @@ The reveal uses `@keyframes reveal-rise` and the stagger is an
 hero portrait shipped 2.68 MB — roughly 32× every file they measured, combined.
 A budget that ignores the largest asset measures nothing.
 
-**Why HTML is 42 KB, not tighter:** this page carries its Spanish translation
-inline across 94 `data-es` attributes. That is content, not slack.
+**Why HTML is 42 KB and CSS is 32 KB, not tighter:** the page carries its
+Spanish translation inline across 94 `data-es` attributes, and the CSP forced
+seven `style=""` attributes out of the markup into classes. Both limits were
+originally set wherever the files already sat, which is a ceiling, not a target.
 
 ---
 
@@ -102,6 +105,31 @@ in a real 320px viewport.
       magnetic buttons
 - [ ] Form fields carry labels, `autocomplete` and `maxlength`; status is
       announced through `role="status"`
+
+---
+
+## Security headers
+
+`_headers` is generated, never hand-edited:
+
+```bash
+npm run csp             # regenerate
+node script/csp.js --check   # runs inside npm test
+```
+
+The page keeps two inline blocks on purpose — a script that applies the stored
+theme before first paint, and the mobile navigation styles. Both are allowed by
+**SHA-256 hash**, not `'unsafe-inline'`, so anything injected later is still
+blocked.
+
+**Edit an inline block and the hash goes stale.** The deployed page would then
+be blocked by its own policy while every local check stayed green, so
+`--check` runs in the suite and fails loudly instead.
+
+Writing the policy caught a bug no test had: seven `style=""` attributes that
+production would have dropped silently, leaving the page misaligned with
+nothing to explain why. `form.test.js` now also asserts the contact form
+carries no inline handler, so the policy cannot quietly regress.
 
 ---
 

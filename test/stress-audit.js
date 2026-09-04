@@ -43,7 +43,12 @@ function runStressAudit() {
   // page. That is content, and squeezing markup to fit a tighter number buys
   // nothing a visitor can feel.
   assert(htmlSize < 42 * 1024, `HTML size is lean (< 42KB)`);
-  assert(totalCssSize < 30 * 1024, `Total CSS size is compact (< 30KB)`);
+  // 32KB, not 30KB. The Content-Security-Policy forbids style="" attributes
+  // without style-src-attr 'unsafe-inline', so seven of them moved out of the
+  // markup and into classes. HTML dropped 0.68KB and CSS gained 0.73KB: the
+  // same rules, a different file. A budget that penalises a change security
+  // requires is measuring the wrong thing.
+  assert(totalCssSize < 32 * 1024, `Total CSS size is compact (< 32KB)`);
   assert(jsSize < 16 * 1024, `Runtime JS size is ultra-lightweight (< 16KB)`);
 
   // Text budgets alone were misleading: they passed while the hero portrait

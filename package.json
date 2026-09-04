@@ -5,9 +5,10 @@
   "type": "module",
   "description": "Andres Lopez <andres.{dev}> AI Orchestrator Portfolio",
   "scripts": {
-    "test": "node test/markup.test.js && node test/stress-audit.js",
+    "test": "node script/csp.js --check && node test/markup.test.js && node test/stress-audit.js",
     "test:markup": "node test/markup.test.js",
-    "test:stress": "node test/stress-audit.js"
+    "test:stress": "node test/stress-audit.js",
+    "csp": "node script/csp.js"
   },
   "author": "Andres Lopez",
   "license": "MIT"

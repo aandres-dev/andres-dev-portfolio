@@ -101,7 +101,7 @@
 </head>
 <body>
   <a class="skip-link" href="#main-content" data-es="Saltar al contenido">Skip to content</a>
-  <svg width="0" height="0" aria-hidden="true" focusable="false" style="position:absolute">
+  <svg width="0" height="0" aria-hidden="true" focusable="false" class="icon-sprite">
     <symbol id="i-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M13 6l6 6-6 6"></path></symbol>
   </svg>
   <!-- Film Grain Overlay for Editorial Matte Texture -->
@@ -185,7 +185,7 @@
       <!-- Interactive GPU Particle Constellation Canvas -->
       <canvas id="neural-mesh" class="hero-canvas" aria-hidden="true"></canvas>
 
-      <div class="container hero-split-grid" style="position: relative; z-index: 1;">
+      <div class="container hero-split-grid">
         <header data-animate="reveal">
           <p class="eyebrow" data-i18n-html="true" data-es="&lt;span class=&quot;pulse-indicator&quot;&gt;&lt;/span&gt;Orquestación de IA &amp; Arquitectura"><span class="pulse-indicator"></span>AI Orchestration &amp; Architecture</p>
           <h1 id="hero-heading" class="heading-hero" data-i18n-html="true" data-es="El humano dirige.&lt;br&gt;&lt;em data-scramble&gt;La máquina ejecuta.&lt;/em&gt;">
@@ -230,11 +230,11 @@
             <dd class="hud-value">RondApp &bull; AccessCampus360</dd>
             <dt class="hud-label" data-es="METODOLOGÍA:">METHODOLOGY:</dt>
             <dd class="hud-value" data-es="Desarrollo Guiado por Especificaciones (SDD)">Spec-Driven Development (SDD)</dd>
-            <dt class="hud-label" style="border-top: 1px dashed var(--color-border-subtle); padding-top: 0.4rem; margin-top: 0.2rem;" data-es="ESTADO:">STATUS:</dt>
-            <dd class="hud-value" style="border-top: 1px dashed var(--color-border-subtle); padding-top: 0.4rem; margin-top: 0.2rem; color: var(--color-gold-bright);" data-es="Disponible para oportunidades junior orquestando software con IA">Open to junior software-AI orchestration roles</dd>
+            <dt class="hud-label hud-divided" data-es="ESTADO:">STATUS:</dt>
+            <dd class="hud-value hud-divided hud-status" data-es="Disponible para oportunidades junior orquestando software con IA">Open to junior software-AI orchestration roles</dd>
           </dl>
 
-          <footer style="margin-top: var(--space-xs); padding-top: var(--space-xs); border-top: 1px solid var(--color-border-subtle);">
+          <footer class="hud-actions">
             <a href="assets/docs/andres-lopez-cv.pdf" class="btn btn-primary btn-cv" target="_blank" rel="noopener noreferrer" download="Andres_Lopez_CV.pdf">
               <span data-es="Descargar hoja de vida">Download CV</span>
               <span class="btn-orb" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 5v14M6 13l6 6 6-6"></path></svg></span>
@@ -252,7 +252,7 @@
           <h2 id="manifesto-heading" class="heading-section" data-scramble data-es="Los Conceptos Duran Más que la Sintaxis">Concepts Outlive Syntax</h2>
         </header>
 
-        <div class="grid-manifesto" style="margin-top: var(--space-xl);">
+        <div class="grid-manifesto grid-spaced">
           <blockquote class="manifesto-quote" data-animate="reveal" data-es="&ldquo;Memorizar librerías y sintaxis quedó en el pasado. Hoy la verdadera ventaja competitiva está en entender los problemas reales en campo, aplicar arquitectura sólida y saber dirigir la inteligencia artificial con criterio técnico.&rdquo;">
             &ldquo;Memorizing framework trivia was yesterday's bottleneck. Today's leverage belongs to those who understand real field problems, enforce architectural discipline, and direct AI with uncompromising taste.&rdquo;
           </blockquote>
@@ -542,7 +542,7 @@
           </p>
       </form>
 
-      <aside class="footer-meta" style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--color-border-subtle); padding-top: var(--space-md); flex-wrap: wrap; gap: 1rem; font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-text-muted);">
+      <aside class="footer-meta">
         <p data-es="&copy; 2026 Andrés López. Desarrollado con estándares web vanilla &bull; Sin código basura de IA.">&copy; 2026 Andres Lopez. Built with Vanilla Web Standards &bull; Zero AI attribution.</p>
         <p data-es="Construido con arquitectura limpia y metodología de especificación (SDD).">Architected with Spec-Driven Discipline &amp; Clean Systems.</p>
       </aside>
