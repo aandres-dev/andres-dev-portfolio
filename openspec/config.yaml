@@ -1,90 +1,83 @@
+# openspec/config.yaml
 schema: spec-driven
-project: porfolio-andres.dev
-strict_tdd: false
-
-artifact_store:
-  mode: hybrid
-
-execution:
-  mode: interactive
-  delivery_strategy: ask-on-risk
-  review_budget_lines: 400
 
 context: |
-  Tech stack: Node.js ES modules with a static vanilla HTML/CSS/JavaScript portfolio.
-  Architecture: Scripted modular static-site assembly; source files are expected under src/ and emitted to dist/.
-  Testing: No test runner, test suite, coverage tool, linter, type checker, or formatter is configured.
-  Quality: Custom HTML semantic/line-count validation is available through npm run validate.
-  Build: npm run build assembles src/index.html and copies CSS, JavaScript, and assets to dist/.
-  Style: Existing scripts use English identifiers and Spanish console messages.
+  Tech stack: Vanilla HTML5, CSS @layer + oklch tokens, Vanilla JS (browser IIFE; Node ESM tests)
+  Architecture: Root index.html with src/styles/* and src/scripts/* modules; no framework; no npm dependencies
+  Testing: Workspace `npm test` runs markup + stress audits; node:test form suite is unwired and targets missing src/js/form.js
+  Style: Gentle AI conventions, semantic HTML5, Typespiration typography, Obsidian/Crimson/Gold OKLCH palette
+
+strict_tdd: true
 
 projects:
-  - path: "."
-    stack: "Node.js ES modules; static vanilla HTML/CSS/JavaScript"
-    test_command: ""
-    test_runner: ""
-    test_layers:
-      unit: false
-      integration: false
-      e2e: false
-    coverage_command: ""
-    quality:
-      linter:
-        available: false
-        command: ""
-      type_checker:
-        available: false
-        command: ""
-      formatter:
-        available: false
-        command: ""
-    validation_command: "npm run validate"
-    build_command: "npm run build"
-    aggregate_check_command: "npm run check"
+  - path: .
+    stack: Vanilla HTML/CSS/JS
+    test_command: npm test
+    framework: custom-node-runner
 
 testing:
-  strict_tdd: false
-  workspace_test_command: ""
-  fallback_reason: "No explicit workspace-level test command covers the discovered project; npm run check is a validation/build pipeline, not a test runner."
+  strict_tdd: true
+  detected: "2026-09-03"
+  workspace_test_command: npm test
   projects:
-    - path: "."
-      test_command: ""
-      test_runner: ""
-      validation_command: "npm run validate"
-      build_command: "npm run build"
-      aggregate_check_command: "npm run check"
-      test_layers:
-        unit: false
-        integration: false
-        e2e: false
-      coverage_command: ""
+    - path: .
+      stack: Vanilla HTML/CSS/JS
+      test_command: npm test
+      framework: custom-node-runner
+      extra_test_commands:
+        - node test/form.test.js
+      layers:
+        unit:
+          available: false
+          tool: "node:test file test/form.test.js exists but is not in npm test and imports missing src/js/form.js"
+        integration:
+          available: false
+          tool: ""
+        e2e:
+          available: false
+          tool: ""
+      coverage:
+        available: false
+        command: ""
       quality:
-        linter: ""
-        type_checker: ""
-        formatter: ""
+        linter:
+          available: false
+          command: ""
+        type_checker:
+          available: false
+          command: ""
+        formatter:
+          available: false
+          command: ""
+        custom_static_audits:
+          available: true
+          command: npm test
+        custom_validator:
+          available: true
+          command: node script/validate.js
 
 rules:
   proposal:
-    - Include rollback plans for risky changes.
+    - Include rollback plan for risky changes
   specs:
-    - Use Given/When/Then scenarios.
-    - Use RFC 2119 keywords (MUST, SHALL, SHOULD, MAY).
+    - Use Given/When/Then for scenarios
+    - Use RFC 2119 keywords (MUST, SHALL, SHOULD, MAY)
   design:
-    - Document architecture decisions with rationale.
-    - Include sequence diagrams for complex flows.
+    - Include sequence diagrams for complex flows
+    - Document architecture decisions with rationale
   tasks:
-    - Group tasks by phase with hierarchical numbering.
-    - Keep tasks completable in one session.
+    - Group by phase, use hierarchical numbering
+    - Keep tasks completable in one session
   apply:
     guidelines:
-      - Follow existing vanilla web patterns and modular source conventions.
-    tdd: false
-    test_command: ""
+      - Follow existing code patterns
+      - Zero divitis, strict semantic HTML5
+      - Compositor-only 60fps animations
+    tdd: true
+    test_command: npm test
   verify:
-    test_command: ""
-    build_command: "npm run build"
-    validation_command: "npm run validate"
-    aggregate_check_command: "npm run check"
+    test_command: npm test
+    build_command: ""
     coverage_threshold: 0
   archive:
-    - Warn before merging destructive deltas.
+    - Warn before merging destructive deltas

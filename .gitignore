@@ -4,6 +4,11 @@ dist/
 *.log
 # Local AI runtime state
 .atl/
+.pi/
 
 # CodeGraph local index
 .codegraph/
+
+# Personal memory backups (not site content)
+andres-profile-engram-backup.json
+andres-profile-memory.md
