@@ -1,0 +1,44 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;800&family=JetBrains+Mono:wght@400;600&family=Plus+Jakarta+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{width:1200px;height:630px;overflow:hidden;background:oklch(0.09 0.010 250);
+       color:oklch(0.97 0.005 90);font-family:"Plus Jakarta Sans",sans-serif;
+       display:grid;grid-template-columns:1fr 400px;position:relative}
+  .glow{position:absolute;inset:0;
+        background:radial-gradient(circle at 12% 0%, oklch(0.56 0.24 25 / .16) 0%, transparent 46%),
+                   radial-gradient(circle at 88% 100%, oklch(0.80 0.14 80 / .10) 0%, transparent 44%)}
+  .left{position:relative;padding:64px 0 64px 72px;display:flex;flex-direction:column;justify-content:space-between}
+  .brand{font-family:"JetBrains Mono",monospace;font-weight:700;font-size:26px;letter-spacing:-.01em}
+  .brand i{font-style:normal;color:oklch(0.80 0.14 80)}
+  .eyebrow{font-family:"JetBrains Mono",monospace;font-size:14px;letter-spacing:.20em;
+           text-transform:uppercase;color:oklch(0.80 0.14 80);display:flex;align-items:center;gap:10px;margin-bottom:22px}
+  .eyebrow::before{content:"";width:9px;height:9px;border-radius:50%;background:oklch(0.56 0.24 25);
+                   box-shadow:0 0 14px oklch(0.56 0.24 25)}
+  h1{font-family:"Cinzel",Georgia,serif;font-weight:800;font-size:70px;line-height:.96;letter-spacing:-.015em}
+  h1 em{font-style:italic;color:oklch(0.88 0.16 82);display:block}
+  .name{font-family:"JetBrains Mono",monospace;font-size:17px;color:oklch(0.75 0.015 250);letter-spacing:.02em}
+  .name b{color:oklch(0.97 0.005 90);font-weight:600}
+  .rule{width:56px;height:3px;background:oklch(0.56 0.24 25);margin-bottom:18px}
+  .right{position:relative;display:flex;align-items:center;justify-content:center;padding-right:64px}
+  .frame{width:300px;height:375px;border-radius:20px;overflow:hidden;
+         border:1px solid oklch(0.26 0.018 250);background:oklch(0.13 0.014 250);
+         box-shadow:0 30px 80px -30px oklch(0 0 0 / .9)}
+  .frame img{width:100%;height:100%;object-fit:cover;display:block}
+</style></head><body>
+  <div class="glow"></div>
+  <div class="left">
+    <div class="brand">andres<i>.{dev}</i></div>
+    <div>
+      <p class="eyebrow">AI Orchestration &amp; Architecture</p>
+      <h1>The Human Directs.<em>The Machine Executes.</em></h1>
+    </div>
+    <div>
+      <div class="rule"></div>
+      <p class="name"><b>Andres Lopez</b> &nbsp;·&nbsp; Software AI Orchestrator</p>
+    </div>
+  </div>
+  <div class="right"><div class="frame"><img src="../assets/images/andres-892.jpg" alt=""></div></div>
+</body></html>
