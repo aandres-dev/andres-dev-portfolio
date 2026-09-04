@@ -739,55 +739,21 @@
     overflow: hidden;
   }
 
-  footer.site-footer > .container { position: relative; }
-  .contact-burst {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 2;
-  }
-  footer.site-footer.is-sent .contact-form,
-  footer.site-footer.is-sent .footer-meta {
-    opacity: 0.14;
-    transition: opacity var(--duration-normal) var(--ease-out-expo);
-  }
   .contact-status:empty { display: none; }
+  .contact-status[data-tone="success"] {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+  }
   .contact-status[data-tone="issue"] {
     margin: 0;
-    padding: 0.85rem 0 0;
+    padding: 0.7rem 0 0;
     border: 0;
     background: none;
     color: var(--color-crimson-bright);
     font-size: var(--text-sm);
-  }
-  .contact-status[data-tone="success"] {
-    position: absolute;
-    inset: 0;
-    z-index: 3;
-    display: grid;
-    place-items: center;
-    margin: 0;
-    padding: 1.5rem;
-    border: 0;
-    background: none;
-    box-shadow: none;
-    text-align: center;
-    pointer-events: none;
-    font-family: var(--font-display);
-    font-size: clamp(1.4rem, 4.2vw, 2.35rem);
-    font-weight: 700;
-    letter-spacing: 0.06em;
-    line-height: 1.2;
-    color: var(--color-gold);
-  }
-  .contact-status.is-in {
-    animation: status-in var(--duration-normal) var(--ease-out-expo) both;
-  }
-  @keyframes status-in {
-    from { opacity: 0; transform: translateY(12px) scale(0.96); }
-    to { opacity: 1; transform: none; }
   }
 
   .contact-actions [hidden] {

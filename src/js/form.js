@@ -19,6 +19,8 @@ const STATUS = {
   },
 };
 
+const SENT = { en: 'Sent', es: 'Enviado' };
+
 function isLiveEndpoint(endpoint) {
   return typeof endpoint === 'string'
     && LIVE_FORMSPREE.test(endpoint)
@@ -29,92 +31,12 @@ function lang() {
   return document.documentElement?.lang === 'es' ? 'es' : 'en';
 }
 
-function playSendBurst(canvas, host) {
-  if (!canvas || !host || typeof canvas.getContext !== 'function') {
-    return { stop() {} };
-  }
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    return { stop() {} };
-  }
-  const ctx = canvas.getContext('2d');
-  if (!ctx) return { stop() {} };
-
-  let running = true;
-  let frame = 0;
-  const box = host.getBoundingClientRect();
-  const dpr = Math.min(window.devicePixelRatio || 1, 2);
-  canvas.width = Math.floor(box.width * dpr);
-  canvas.height = Math.floor(box.height * dpr);
-  canvas.style.width = `${box.width}px`;
-  canvas.style.height = `${box.height}px`;
-  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-
-  const count = box.width < 700 ? 26 : 46;
-  const cx = box.width / 2;
-  const cy = box.height / 2;
-  const bits = [];
-  for (let i = 0; i < count; i += 1) {
-    const angle = ((Math.PI * 2) * i) / count + Math.random() * 0.45;
-    const speed = 90 + Math.random() * 220;
-    bits.push({
-      x: cx,
-      y: cy,
-      vx: Math.cos(angle) * speed,
-      vy: Math.sin(angle) * speed - 90,
-      rot: Math.random() * Math.PI,
-      vr: (Math.random() - 0.5) * 8,
-      w: 3 + Math.random() * 8,
-      h: 1 + Math.random() * 2,
-      life: 0.75 + Math.random() * 0.7,
-      age: 0,
-      gold: Math.random() > 0.22,
-    });
-  }
-
-  let last = performance.now();
-  function tick(now) {
-    if (!running) return;
-    const dt = Math.min((now - last) / 1000, 0.04);
-    last = now;
-    ctx.clearRect(0, 0, box.width, box.height);
-    let alive = 0;
-    for (const bit of bits) {
-      bit.age += dt;
-      if (bit.age > bit.life) continue;
-      alive += 1;
-      bit.vy += 420 * dt;
-      bit.x += bit.vx * dt;
-      bit.y += bit.vy * dt;
-      bit.rot += bit.vr * dt;
-      ctx.save();
-      ctx.translate(bit.x, bit.y);
-      ctx.rotate(bit.rot);
-      ctx.globalAlpha = (1 - bit.age / bit.life) * 0.92;
-      ctx.fillStyle = bit.gold ? '#d4af37' : '#c4452d';
-      ctx.fillRect(-bit.w / 2, -bit.h / 2, bit.w, bit.h);
-      ctx.restore();
-    }
-    if (alive) frame = requestAnimationFrame(tick);
-    else ctx.clearRect(0, 0, box.width, box.height);
-  }
-  frame = requestAnimationFrame(tick);
-
-  return {
-    stop() {
-      running = false;
-      cancelAnimationFrame(frame);
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-    },
-  };
-}
-
 function initContactForm(root, options = {}) {
   const form = root.querySelector('#contact-form');
   const status = root.querySelector('#contact-status');
   const retry = root.querySelector('#contact-retry');
   const slot = root.querySelector('#contact-turnstile');
-  const footer = root.querySelector('#contact');
-  const canvas = root.querySelector('#contact-burst');
+  const submitLabel = form?.querySelector('[type="submit"] span[data-es]');
   const endpoint = options.endpoint;
   const siteKey = options.siteKey;
   const turnstile = options.turnstile || (typeof window !== 'undefined' ? window.turnstile : undefined);
@@ -124,16 +46,19 @@ function initContactForm(root, options = {}) {
   if (live && form) form.setAttribute('action', endpoint);
 
   let hideTimer = 0;
-  let burst = { stop() {} };
+
+  function restoreSubmit() {
+    if (!submitLabel?.dataset?.restore) return;
+    submitLabel.textContent = submitLabel.dataset.restore;
+    delete submitLabel.dataset.restore;
+  }
 
   function clearStatus() {
     clearTimeout(hideTimer);
-    burst.stop();
-    footer?.classList.remove('is-sent');
+    restoreSubmit();
     if (!status) return;
     status.textContent = '';
     status.removeAttribute('data-tone');
-    status.classList.remove('is-in');
   }
 
   function setStatus(key) {
@@ -141,20 +66,15 @@ function initContactForm(root, options = {}) {
     const copy = STATUS[key];
     if (!copy) return;
     clearTimeout(hideTimer);
-    burst.stop();
+    restoreSubmit();
     status.setAttribute('data-i18n', `form.status.${key}`);
     status.setAttribute('data-tone', key === 'success' ? 'success' : 'issue');
     status.textContent = copy[lang()];
-    status.classList.remove('is-in');
-    void status.offsetWidth;
-    status.classList.add('is-in');
-    if (key === 'success') {
-      footer?.classList.add('is-sent');
-      burst = playSendBurst(canvas, footer);
-      hideTimer = setTimeout(clearStatus, 4200);
+    if (key === 'success' && submitLabel && submitLabel.dataset) {
+      submitLabel.dataset.restore = submitLabel.textContent;
+      submitLabel.textContent = SENT[lang()];
+      hideTimer = setTimeout(clearStatus, 3200);
       hideTimer.unref?.();
-    } else {
-      footer?.classList.remove('is-sent');
     }
   }
 
