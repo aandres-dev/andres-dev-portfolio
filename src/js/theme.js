@@ -43,6 +43,7 @@ function initThemeSwitcher() {
       if (applied) return;
       applied = true;
       applyTheme(next);
+      window.dispatchEvent(new CustomEvent('theme-change-applied', { detail: { theme: next } }));
     };
 
     if (typeof document.startViewTransition === 'function') {
