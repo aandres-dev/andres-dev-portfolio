@@ -22,3 +22,7 @@ playwright-report/
 .claude/
 openspec/
 skills-lock.json
+AGENTS.md
+
+# CV source (the site serves assets/docs/andres-lopez-cv.pdf)
+cv/
