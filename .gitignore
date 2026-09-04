@@ -16,3 +16,9 @@ andres-profile-memory.md
 # Playwright
 test-results/
 playwright-report/
+
+# Agent skill packs and SDD working files (local only)
+.agents/
+.claude/
+openspec/
+skills-lock.json
