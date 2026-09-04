@@ -42,17 +42,31 @@ function initContactForm(root, options = {}) {
 
   if (live && form) form.setAttribute('action', endpoint);
 
+  let hideTimer = 0;
+
+  function clearStatus() {
+    clearTimeout(hideTimer);
+    if (!status) return;
+    status.textContent = '';
+    status.removeAttribute('data-tone');
+    status.classList.remove('is-in');
+  }
+
   function setStatus(key) {
     if (!status) return;
     const copy = STATUS[key];
     if (!copy) return;
+    clearTimeout(hideTimer);
     status.setAttribute('data-i18n', `form.status.${key}`);
     status.setAttribute('data-tone', key === 'success' ? 'success' : 'issue');
     status.textContent = copy[lang()];
     status.classList.remove('is-in');
     void status.offsetWidth;
     status.classList.add('is-in');
-    status.focus?.();
+    if (key === 'success') {
+      hideTimer = setTimeout(clearStatus, 4200);
+      hideTimer.unref?.();
+    }
   }
 
   function onTurnstileIssue() {
