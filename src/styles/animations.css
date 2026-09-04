@@ -1,9 +1,15 @@
 @layer utilities {
-  /* The reveal slides with `translate`, not `transform`, on purpose. These
-     rules live in the utilities layer, which outranks components, so writing
-     `transform` here would pin every revealed element flat and cancel the
-     hover lift on .spotlight-card. `translate` is its own property and
-     composes with transform instead of replacing it. */
+  /* The reveal runs as an animation, never a transition. These rules sit in
+     the utilities layer, which outranks components, so any transition-* or
+     transform this layer declares wins over .spotlight-card and silently
+     disables its hover. Animations are a separate system: they cannot collide
+     with the hover transition, and the stagger becomes an animation-delay that
+     cannot leak into it either. Do not rewrite this as a transition. */
+
+  @keyframes reveal-rise {
+    from { opacity: 0; translate: 0 24px; }
+    to   { opacity: 1; translate: 0 0; }
+  }
 
   /* Progressive Enhancement: 100% visible by default (Zero blank page risk) */
   [data-animate="reveal"] {
@@ -11,25 +17,21 @@
     translate: none;
   }
 
-  /* Only hide and animate when JavaScript has actively initialized */
+  /* Only hide once JavaScript has actively initialized */
   html.js-ready [data-animate="reveal"]:not([data-visible="true"]) {
     opacity: 0;
     translate: 0 24px;
-    transition: opacity var(--duration-slow) var(--ease-out-expo),
-                translate var(--duration-slow) var(--ease-out-expo);
-    will-change: opacity, translate;
   }
 
   html.js-ready [data-animate="reveal"][data-visible="true"] {
-    opacity: 1;
-    translate: 0 0;
+    animation: reveal-rise var(--duration-slow) var(--ease-out-expo) var(--reveal-delay, 0ms) both;
   }
 
-  /* Stagger Delays for Children */
-  [data-stagger="1"] { transition-delay: 80ms; }
-  [data-stagger="2"] { transition-delay: 160ms; }
-  [data-stagger="3"] { transition-delay: 240ms; }
-  [data-stagger="4"] { transition-delay: 320ms; }
+  /* Stagger: an animation-delay, so it never reaches the hover transition */
+  [data-stagger="1"] { --reveal-delay: 80ms; }
+  [data-stagger="2"] { --reveal-delay: 160ms; }
+  [data-stagger="3"] { --reveal-delay: 240ms; }
+  [data-stagger="4"] { --reveal-delay: 320ms; }
 
   /* Crimson Pulse Effect */
   @keyframes crimsonPulse {
@@ -64,7 +66,7 @@
     html.js-ready [data-animate="reveal"]:not([data-visible="true"]) {
       opacity: 1 !important;
       translate: none !important;
-      transition: none !important;
+      animation: none !important;
       will-change: auto !important;
     }
 
