@@ -328,53 +328,18 @@
     });
   }
 
-  // 9. Obfuscated Contact Signal with Clipboard Dispatch
-  function initContactSignal() {
-    const btn = document.getElementById('copy-contact-btn');
-    if (!btn) return;
-    const btnText = btn.querySelector('.btn-text');
-    const originalText = btnText ? btnText.textContent : btn.textContent;
-    let resetTimeout = null;
-
-    btn.addEventListener('click', async () => {
-      const address = ['aandreslo14.dev', 'gmail.com'].join('@');
-      try {
-        if (navigator.clipboard && window.isSecureContext) {
-          await navigator.clipboard.writeText(address);
-        } else {
-          const input = document.createElement('textarea');
-          input.value = address;
-          input.style.position = 'fixed';
-          input.style.left = '-9999px';
-          input.setAttribute('aria-hidden', 'true');
-          document.body.appendChild(input);
-          input.select();
-          document.execCommand('copy');
-          document.body.removeChild(input);
-        }
-
-        const isEs = document.documentElement.lang === 'es';
-        if (btnText) btnText.textContent = isEs ? '✓ Correo copiado al portapapeles' : '✓ Signal Copied to Clipboard';
-        btn.setAttribute('data-state', 'copied');
-
-        if (resetTimeout) clearTimeout(resetTimeout);
-        resetTimeout = setTimeout(() => {
-          const currentEs = document.documentElement.lang === 'es';
-          if (btnText) btnText.textContent = currentEs ? (btnText.dataset.es || originalText) : (btnText.dataset.en || originalText);
-          btn.removeAttribute('data-state');
-        }, 2800);
-      } catch (err) {
-        console.warn('Transmission fallback:', err);
-      }
-    });
-  }
-
   // 10. Obfuscated Outbound Destination Module
   function initOutboundLinks() {
     const githubBtn = document.getElementById('github-link-btn');
-    if (!githubBtn) return;
-    githubBtn.addEventListener('click', () => {
+    githubBtn?.addEventListener('click', () => {
       window.open(['https://', 'github.com/', 'aandres-dev'].join(''), '_blank', 'noopener,noreferrer');
+    });
+
+    const linkedinBtn = document.getElementById('linkedin-link-btn');
+    linkedinBtn?.addEventListener('click', () => {
+      const profile = linkedinBtn.getAttribute('data-profile') || '';
+      if (!profile) return;
+      window.open(['https://', 'www.linkedin.com/in/', profile].join(''), '_blank', 'noopener,noreferrer');
     });
   }
 
@@ -410,6 +375,7 @@
         b.classList.toggle('is-active', active);
         b.setAttribute('aria-pressed', active ? 'true' : 'false');
       });
+      document.querySelectorAll('.lang-switch').forEach(el => el.classList.toggle('is-es', isEs));
 
       try {
         localStorage.setItem('preferred-lang', lang);
@@ -423,6 +389,8 @@
     } catch (e) {}
   }
 
+
+
   // Bootstrap
   function bootstrap() {
     initScrollReveal();
@@ -432,9 +400,10 @@
     initNeuralMesh();
     initTextScramble();
     initMagneticButtons();
-    initContactSignal();
     initOutboundLinks();
     initLanguageSwitcher();
+    if (window.initThemeSwitcher) window.initThemeSwitcher();
+    if (window.initContactForm) window.initContactForm(document, { endpoint: '', siteKey: '', turnstile: window.turnstile });
   }
 
   if (document.readyState === 'loading') {

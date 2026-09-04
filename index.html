@@ -11,6 +11,14 @@
   <meta name="keywords" content="Andres Lopez, andres.dev, AI Orchestrator, AI Director, Prompt Engineering, Spec-Driven Development, Clean Architecture, Vanilla Web, High Performance">
   <meta name="author" content="Andres Lopez">
   <meta name="theme-color" content="#0a0a0e">
+  <script>
+    try {
+      if (localStorage.getItem('preferred-theme') === 'light') {
+        document.documentElement.setAttribute('data-theme', 'light');
+        document.querySelector('meta[name="theme-color"]').setAttribute('content', '#f7f6f2');
+      }
+    } catch (e) {}
+  </script>
 
   <!-- Open Graph / Facebook -->
   <meta property="og:type" content="website">
@@ -77,11 +85,38 @@
         <li><a href="#workflow" class="nav-link" data-es="Cómo Trabajo">The Machine</a></li>
         <li><a href="#arsenal" class="nav-link" data-es="Habilidades">Arsenal</a></li>
         <li class="lang-switch" role="group" aria-label="Language selector">
-          <button type="button" class="lang-btn is-active" data-lang-btn="en" aria-pressed="true">EN</button>
-          <span class="lang-divider" aria-hidden="true">/</span>
-          <button type="button" class="lang-btn" data-lang-btn="es" aria-pressed="false">ES</button>
+          <span class="island-shell">
+            <span class="island-core">
+              <span class="island-knob" aria-hidden="true"></span>
+              <button type="button" class="lang-btn is-active" data-lang-btn="en" aria-pressed="true">EN</button>
+              <button type="button" class="lang-btn" data-lang-btn="es" aria-pressed="false">ES</button>
+            </span>
+          </span>
         </li>
-        <li><a href="#contact" class="btn btn-primary" style="padding: 0.5rem 1.1rem; font-size: var(--text-xs);" data-es="Contacto">Transmit</a></li>
+        <li class="theme-switch">
+          <button type="button" class="island-shell theme-island" id="theme-toggle" aria-label="Switch theme" aria-pressed="false">
+            <span class="island-core">
+              <span class="island-knob" aria-hidden="true"></span>
+              <span class="island-face">
+                <span class="island-orb" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 14.5A8.5 8.5 0 1 1 9.5 3 7 7 0 0 0 21 14.5z"></path></svg>
+                </span>
+              </span>
+              <span class="island-face">
+                <span class="island-orb" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path></svg>
+                </span>
+              </span>
+            </span>
+          </button>
+        </li>
+        <li>
+          <a href="#contact" class="btn btn-primary btn-island"><span data-es="Contacto">Contact</span>
+            <span class="btn-orb" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+            </span>
+          </a>
+        </li>
       </ul>
     </nav>
   </header>
@@ -106,8 +141,8 @@
           </p>
 
           <nav class="button-group" aria-label="Hero actions">
-            <a href="#works" class="btn btn-primary" data-es="Ver Proyectos">Inspect Works</a>
-            <a href="#manifesto" class="btn btn-secondary" data-es="Leer Manifiesto">Read Manifesto</a>
+            <a href="#works" class="btn btn-primary"><span data-es="Ver proyectos">Inspect works</span><span class="btn-orb" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span></a>
+            <a href="#manifesto" class="btn btn-secondary"><span data-es="Leer manifiesto">Read manifesto</span><span class="btn-orb" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span></a>
           </nav>
         </header>
 
@@ -119,21 +154,17 @@
               <source srcset="assets/images/andres-lopez.jpg" type="image/jpeg">
               <img src="assets/images/andres.dev.jpg" 
                    onerror="this.onerror=null;this.src='assets/images/andres-lopez-placeholder.svg';" 
-                   alt="Andres Lopez - AI-Assisted Full-Stack Builder" 
+                   alt="Andres Lopez - Software AI Orchestrator" 
                    class="director-photo" 
                    width="360" 
                    height="360" 
                    loading="eager">
             </picture>
-            <figcaption class="director-caption">
-              <span class="hud-signal" data-es="&bull; ARQUITECTO &amp; DESARROLLADOR">&bull; SOVEREIGN ARCHITECT</span>
-              <span class="badge badge-gold">&lt;andres.{dev}&gt;</span>
-            </figcaption>
           </figure>
 
           <dl class="hud-feed">
             <dt class="hud-label" data-es="ROL:">ROLE:</dt>
-            <dd class="hud-value" data-es="Desarrollador Full-Stack asistido por IA">AI-Assisted Full-Stack Builder</dd>
+            <dd class="hud-value" data-es="Orquestador de software con IA">Software AI Orchestrator</dd>
             <dt class="hud-label" data-es="TRAYECTORIA:">BACKGROUND:</dt>
             <dd class="hud-value" data-es="Seguridad Física y Vigilancia Operativa">Operational Field Security</dd>
             <dt class="hud-label" data-es="PROYECTOS:">FLAGSHIP WORK:</dt>
@@ -141,13 +172,13 @@
             <dt class="hud-label" data-es="METODOLOGÍA:">METHODOLOGY:</dt>
             <dd class="hud-value" data-es="Desarrollo Guiado por Especificaciones (SDD)">Spec-Driven Development (SDD)</dd>
             <dt class="hud-label" style="border-top: 1px dashed var(--color-border-subtle); padding-top: 0.4rem; margin-top: 0.2rem;" data-es="ESTADO:">STATUS:</dt>
-            <dd class="hud-value" style="border-top: 1px dashed var(--color-border-subtle); padding-top: 0.4rem; margin-top: 0.2rem; color: var(--color-gold-bright);" data-es="Disponible para oportunidades Full-Stack asistidas por IA">Open to AI-Assisted Full-Stack Opportunities</dd>
+            <dd class="hud-value" style="border-top: 1px dashed var(--color-border-subtle); padding-top: 0.4rem; margin-top: 0.2rem; color: var(--color-gold-bright);" data-es="Disponible para oportunidades junior orquestando software con IA">Open to junior software-AI orchestration roles</dd>
           </dl>
 
           <footer style="margin-top: var(--space-xs); padding-top: var(--space-xs); border-top: 1px solid var(--color-border-subtle);">
             <a href="assets/docs/andres-lopez-cv.pdf" class="btn btn-primary btn-cv" target="_blank" rel="noopener noreferrer" download="Andres_Lopez_CV.pdf">
-              <span data-es="Descargar Hoja de Vida (PDF)">Download Curriculum Vitae (PDF)</span>
-              <span aria-hidden="true">&darr;</span>
+              <span data-es="Descargar hoja de vida">Download CV</span>
+              <span class="btn-orb" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 5v14M6 13l6 6 6-6"></path></svg></span>
             </a>
           </footer>
         </aside>
@@ -218,7 +249,7 @@
                 <span class="badge">Service Workers</span>
                 <span class="badge">PWA</span>
               </nav>
-              <a href="#workflow" class="btn btn-secondary" style="padding: 0.45rem 0.9rem; font-size: var(--text-xs);" data-es="Ver Arquitectura &rarr;">Inspect Architecture &rarr;</a>
+              <a href="#workflow" class="btn btn-secondary"><span data-es="Arquitectura">Architecture</span><span class="btn-orb" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span></a>
             </footer>
           </article>
 
@@ -249,7 +280,7 @@
                 <span class="badge">WebSockets</span>
                 <span class="badge">Clean Architecture</span>
               </nav>
-              <a href="#contact" class="btn btn-secondary" style="padding: 0.45rem 0.9rem; font-size: var(--text-xs);" data-es="Ver Proyecto &rarr;">View System &rarr;</a>
+              <a href="#contact" class="btn btn-secondary"><span data-es="Proyecto">Project</span><span class="btn-orb" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span></a>
             </footer>
           </article>
 
@@ -281,7 +312,7 @@
                 <span class="badge">Hexagonal Architecture</span>
                 <span class="badge">TDD</span>
               </nav>
-              <a href="#workflow" class="btn btn-secondary" style="padding: 0.45rem 0.9rem; font-size: var(--text-xs);" data-es="Ver Metodología &rarr;">Inspect Methodology &rarr;</a>
+              <a href="#workflow" class="btn btn-secondary"><span data-es="Metodo">Method</span><span class="btn-orb" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span></a>
             </footer>
           </article>
 
@@ -403,39 +434,64 @@
       <header data-animate="reveal">
         <p class="eyebrow" data-es="Contacto Directo">Transmission &bull; Open Channel</p>
         <h2 class="heading-section" data-scramble data-es="Hablemos">Initiate Contact</h2>
-        <p class="lead-text" data-es="¿Tenés un proyecto, una idea o una vacante donde la IA y las buenas prácticas de arquitectura marquen la diferencia? Hablemos.">Ready to orchestrate transformative digital products? Let's connect.</p>
+        <p class="lead-text" data-es="Si tienes un proyecto, una idea o una vacante, deja el mensaje aqui.">If you have a project, an idea, or a role, leave the message here.</p>
       </header>
 
-      <address style="font-style: normal; margin-block: var(--space-lg);" data-animate="reveal" data-stagger="1">
-        <nav class="button-group" aria-label="Social and contact links">
-          <button type="button" class="btn btn-primary" id="copy-contact-btn" aria-label="Copy direct contact signal to clipboard">
-            <span class="btn-icon" aria-hidden="true">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-              </svg>
-            </span>
-            <span class="btn-text" data-es="Copiar Correo de Contacto">Transmit Signal &bull; Copy Contact</span>
-          </button>
+      <form id="contact-form" class="contact-form" data-animate="reveal" data-stagger="1" onsubmit="return false;">
+        <noscript>
+          <p data-es="Este formulario necesita JavaScript para enviar el mensaje.">This form needs JavaScript to send the message.</p>
+        </noscript>
+        <p>
+          <label for="contact-name"><span data-es="Nombre">Name</span></label>
+          <input id="contact-name" name="name" type="text" required autocomplete="name" maxlength="120">
+        </p>
+        <p>
+          <label for="contact-email"><span data-es="Tu correo">Your email</span></label>
+          <input id="contact-email" name="email" type="email" required autocomplete="email" maxlength="180">
+        </p>
+        <p>
+          <label for="contact-message"><span data-es="Mensaje">Message</span></label>
+          <textarea id="contact-message" name="message" required rows="5" maxlength="4000"></textarea>
+        </p>
+        <p class="contact-honeypot" aria-hidden="true">
+          <label for="contact-gotcha">Company</label>
+          <input id="contact-gotcha" name="_gotcha" type="text" tabindex="-1" autocomplete="off">
+        </p>
+        <p hidden>
+          <label id="contact-turnstile-label" for="contact-turnstile"><span data-es="Verificacion">Verification</span></label>
+          <span id="contact-turnstile"></span>
+        </p>
+        <p id="contact-status" class="contact-status" role="status" aria-live="polite" tabindex="-1"></p>
+        <p class="contact-actions">
+          <button type="submit" class="btn btn-primary"><span data-es="Enviar mensaje">Send message</span><span class="btn-orb" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span></button>
+          <button type="button" class="btn btn-secondary" id="contact-retry" hidden><span data-es="Reintentar">Retry</span></button>
           <button type="button" class="btn btn-secondary" id="github-link-btn" aria-label="Open GitHub profile in new tab">
-            <span class="btn-icon" aria-hidden="true">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
-              </svg>
+            <span class="btn-orb" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"></path></svg>
             </span>
             <span class="btn-text">GitHub</span>
           </button>
-        </nav>
-      </address>
+          <!-- LinkedIn: restore when profile URL is ready
+          <button type="button" class="btn btn-secondary" id="linkedin-link-btn" data-profile="" disabled aria-disabled="true" aria-label="LinkedIn">
+            <span class="btn-orb" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.225 0z"></path></svg>
+            </span>
+            <span class="btn-text">LinkedIn</span>
+          </button>
+          -->
+        </p>
+      </form>
 
       <aside class="footer-meta" style="display: flex; justify-content: space-between; align-items: center; border-top: 1px solid var(--color-border-subtle); padding-top: var(--space-md); flex-wrap: wrap; gap: 1rem; font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-text-muted);">
-        <p data-es="&copy; 2026 Andrés López &bull; &lt;andres.{dev}&gt;. Desarrollado con estándares web vanilla &bull; Sin código basura de IA.">&copy; 2026 Andres Lopez &bull; &lt;andres.{dev}&gt;. Built with Vanilla Web Standards &bull; Zero AI attribution.</p>
+        <p data-es="&copy; 2026 Andrés López. Desarrollado con estándares web vanilla &bull; Sin código basura de IA.">&copy; 2026 Andres Lopez. Built with Vanilla Web Standards &bull; Zero AI attribution.</p>
         <p data-es="Construido con arquitectura limpia y metodología de especificación (SDD).">Architected with Spec-Driven Discipline &amp; Clean Systems.</p>
       </aside>
     </div>
   </footer>
 
   <!-- Scripts (Deferred Vanilla Execution) -->
+  <script src="src/js/form.js" defer></script>
+  <script src="src/js/theme.js" defer></script>
   <script src="src/scripts/main.js" defer></script>
 </body>
 </html>

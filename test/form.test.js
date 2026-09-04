@@ -1,7 +1,8 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
 import { readFile } from 'node:fs/promises';
-import { initContactForm } from '../src/js/form.js';
+import '../src/js/form.js';
+const initContactForm = globalThis.initContactForm;
 
 function element() {
   const attributes = new Map();
