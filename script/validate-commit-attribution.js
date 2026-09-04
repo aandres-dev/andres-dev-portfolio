@@ -7,6 +7,7 @@ const FORBIDDEN = [
   /^\s*Co-Authored-By:/im,
   /^\s*Claude-Session:/im,
   /noreply@anthropic\.com/i,
+  /Claude Code/i,
 ];
 
 function git(args) {
