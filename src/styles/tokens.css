@@ -1,0 +1,72 @@
+@layer tokens {
+  :root {
+    /* Color Palette: OKLCH High-Craft Dark System */
+    --color-canvas: oklch(0.09 0.010 250);       /* Deep Void Obsidian */
+    --color-surface-base: oklch(0.13 0.014 250); /* Structural Card Surface */
+    --color-surface-elevated: oklch(0.17 0.018 250);
+    --color-surface-overlay: oklch(0.21 0.022 250);
+
+    --color-border-subtle: oklch(0.20 0.012 250);
+    --color-border-medium: oklch(0.26 0.018 250);
+    --color-border-strong: oklch(0.36 0.025 250);
+
+    --color-text-primary: oklch(0.97 0.005 90);
+    --color-text-secondary: oklch(0.75 0.015 250);
+    --color-text-muted: oklch(0.50 0.015 250);
+
+    /* Crimson Red Accents (Energy, Execution, Precision) */
+    --color-crimson: oklch(0.56 0.24 25);
+    --color-crimson-bright: oklch(0.64 0.26 25);
+    --color-crimson-subtle: oklch(0.30 0.12 25);
+    --color-crimson-glow: oklch(0.56 0.24 25 / 0.25);
+
+    /* Antique Gold Accents (Prestige, Mastery, Architecture) */
+    --color-gold: oklch(0.80 0.14 80);
+    --color-gold-bright: oklch(0.88 0.16 82);
+    --color-gold-subtle: oklch(0.36 0.08 80);
+    --color-gold-glow: oklch(0.80 0.14 80 / 0.20);
+
+    /* Typography Stack (Typespiration Editorial Pairing) */
+    --font-display: 'Cinzel', 'Playfair Display', Georgia, serif;
+    --font-body: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+    --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, monospace;
+
+    /* Fluid Typography Scale (2-Line Iron Rule compliance) */
+    --text-xs: clamp(0.75rem, 0.2vw + 0.7rem, 0.8125rem);
+    --text-sm: clamp(0.875rem, 0.25vw + 0.8125rem, 0.9375rem);
+    --text-base: clamp(1rem, 0.3vw + 0.92rem, 1.0625rem);
+    --text-md: clamp(1.125rem, 0.5vw + 1rem, 1.25rem);
+    --text-lg: clamp(1.25rem, 0.8vw + 1.05rem, 1.5rem);
+    --text-xl: clamp(1.625rem, 1.4vw + 1.3rem, 2rem);
+    --text-2xl: clamp(2.25rem, 2.5vw + 1.5rem, 3rem);
+    --text-3xl: clamp(2.75rem, 3.8vw + 1.8rem, 4rem);
+    --text-hero: clamp(3.25rem, 6.5vw + 1.5rem, 6rem);
+
+    /* Spacing Scale (Massive Cinematic Spacing from gpt-taste & impeccable) */
+    --space-2xs: clamp(0.25rem, 0.2vw + 0.2rem, 0.375rem);
+    --space-xs: clamp(0.5rem, 0.35vw + 0.4rem, 0.75rem);
+    --space-sm: clamp(0.875rem, 0.6vw + 0.75rem, 1.25rem);
+    --space-md: clamp(1.25rem, 1vw + 1rem, 1.75rem);
+    --space-lg: clamp(2rem, 1.8vw + 1.5rem, 2.75rem);
+    --space-xl: clamp(3.5rem, 3.5vw + 2.5rem, 5rem);
+    --space-2xl: clamp(6rem, 7vw + 4rem, 9.5rem);
+    --space-3xl: clamp(8rem, 10vw + 5rem, 13rem);
+
+    /* Layout Constraints */
+    --content-max-width: 1360px;
+    --hero-max-width: 85rem;
+    --prose-max-width: 65ch;
+    --header-height: 5rem;
+
+    /* Motion & Physics Tokens */
+    --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-in-out-cubic: cubic-bezier(0.65, 0, 0.35, 1);
+    --duration-fast: 160ms;
+    --duration-normal: 300ms;
+    --duration-slow: 650ms;
+
+    /* Elevated Surface Shadows */
+    --shadow-subtle: 0 4px 24px -2px oklch(0 0 0 / 0.55);
+    --shadow-spotlight: 0 20px 50px -10px oklch(0 0 0 / 0.85);
+  }
+}

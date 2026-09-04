@@ -1,0 +1,69 @@
+@layer utilities {
+  /* Progressive Enhancement: 100% visible by default (Zero blank page risk) */
+  [data-animate="reveal"] {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Only hide and animate when JavaScript has actively initialized */
+  html.js-ready [data-animate="reveal"]:not([data-visible="true"]) {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity var(--duration-slow) var(--ease-out-expo),
+                transform var(--duration-slow) var(--ease-out-expo);
+    will-change: opacity, transform;
+  }
+
+  html.js-ready [data-animate="reveal"][data-visible="true"] {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Stagger Delays for Children */
+  [data-stagger="1"] { transition-delay: 80ms; }
+  [data-stagger="2"] { transition-delay: 160ms; }
+  [data-stagger="3"] { transition-delay: 240ms; }
+  [data-stagger="4"] { transition-delay: 320ms; }
+
+  /* Crimson Pulse Effect */
+  @keyframes crimsonPulse {
+    0%, 100% {
+      box-shadow: 0 0 0 0 oklch(0.56 0.24 25 / 0.4);
+    }
+    50% {
+      box-shadow: 0 0 0 8px oklch(0.56 0.24 25 / 0);
+    }
+  }
+
+  .pulse-indicator {
+    animation: crimsonPulse 2.8s infinite var(--ease-in-out-cubic);
+  }
+
+  /* Accessible Text Utilities */
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border-width: 0;
+  }
+
+  /* Reduced Motion Overrides */
+  @media (prefers-reduced-motion: reduce) {
+    [data-animate="reveal"],
+    html.js-ready [data-animate="reveal"]:not([data-visible="true"]) {
+      opacity: 1 !important;
+      transform: none !important;
+      transition: none !important;
+      will-change: auto !important;
+    }
+
+    .pulse-indicator {
+      animation: none !important;
+    }
+  }
+}

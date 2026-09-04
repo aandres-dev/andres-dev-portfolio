@@ -1,19 +1,14 @@
 {
-  "name": "portfolio-andres-dev",
+  "name": "andres-dev-portfolio",
   "version": "1.0.0",
-  "description": "High-performance semantic portfolio built with modern vanilla web standards",
+  "private": true,
   "type": "module",
+  "description": "Andres Lopez <andres.{dev}> AI Orchestrator Portfolio",
   "scripts": {
-    "validate": "node script/validate.js",
-    "build": "node script/build.js",
-    "check": "npm run validate && npm run build"
+    "test": "node test/markup.test.js && node test/stress-audit.js",
+    "test:markup": "node test/markup.test.js",
+    "test:stress": "node test/stress-audit.js"
   },
-  "keywords": [
-    "portfolio",
-    "semantic-html",
-    "modern-css",
-    "vanilla-js"
-  ],
-  "author": "",
+  "author": "Andres Lopez",
   "license": "MIT"
 }
