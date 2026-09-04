@@ -31,13 +31,17 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11.3.0
       - uses: actions/setup-node@v4
         with:
           node-version: 22
-      - run: npm ci
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
       # No system Chromium on the runner, so Playwright supplies its own.
-      - run: npx playwright install --with-deps chromium
-      - run: npx playwright test
+      - run: pnpm exec playwright install --with-deps chromium
+      - run: pnpm e2e
       - uses: actions/upload-artifact@v4
         if: failure()
         with:

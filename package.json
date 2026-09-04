@@ -10,10 +10,11 @@
     "test:stress": "node test/stress-audit.js",
     "csp": "node script/csp.js",
     "e2e": "playwright test",
-    "test:all": "npm test && npm run e2e",
+    "test:all": "pnpm test && pnpm e2e",
     "i18n": "node script/build-i18n.js",
     "comments": "node script/validate-comments.js"
   },
+  "packageManager": "pnpm@11.3.0",
   "author": "Andres Lopez",
   "license": "MIT",
   "devDependencies": {

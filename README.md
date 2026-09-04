@@ -10,11 +10,11 @@ agent. It records decisions and their costs, not just commands.
 
 ```bash
 python3 -m http.server 8000    # serve the repository root
-npm test                       # comments + CSP + i18n + markup + payload
+pnpm test                      # comments + CSP + i18n + markup + payload
 node test/form.test.js         # contact form behaviour
-npm run csp                    # regenerate _headers after an inline-block edit
-npm run i18n                   # regenerate es/index.html after editing index.html
-npm run e2e                    # browser + accessibility; needs npm ci first
+pnpm csp                       # regenerate _headers after an inline-block edit
+pnpm i18n                      # regenerate es/index.html after editing index.html
+pnpm e2e                       # browser + accessibility; needs pnpm install first
 ```
 
 Expected: **21/21** markup, **9/9** payload, **2/2** form, **30/30** browser
@@ -32,13 +32,14 @@ Expected: **21/21** markup, **9/9** payload, **2/2** form, **30/30** browser
 | Fonts | Four self-hosted variable `woff2` files. No Google Fonts, no third-party origin. |
 | CV source | The `cv/` working files stay local. The site serves `assets/docs/andres-lopez-cv.pdf`. |
 | Agent files | `.agents/`, `.claude/`, `openspec/`, and `AGENTS.md` stay local. |
+| pnpm | Lockfile and CI use pnpm, not npm. |
 
 ## Checklist
 
-- [ ] `npm test` is green after your edit
-- [ ] `npm run i18n` if you changed `index.html` (98 `data-es` attributes)
-- [ ] `npm run csp` if you changed an inline `<script>` or `<style>`
-- [ ] Comments still say what the code does, one line, two at most (`npm run comments`)
+- [ ] `pnpm test` is green after your edit
+- [ ] `pnpm i18n` if you changed `index.html` (98 `data-es` attributes)
+- [ ] `pnpm csp` if you changed an inline `<script>` or `<style>`
+- [ ] Comments still say what the code does, one line, two at most (`pnpm comments`)
 - [ ] `node script/validate-commit-attribution.js` — no `Co-Authored-By` / Claude-Session in history
 
 ## Before you touch the CSS
@@ -74,7 +75,7 @@ The image budget exists because text budgets once passed while the hero shipped
 ## Tests
 
 ```bash
-npm ci && npm run e2e
+pnpm install --frozen-lockfile && pnpm e2e
 ```
 
 Playwright at **1440px and 320px**. axe-core for WCAG 2.2 AA in dark, light,
@@ -95,10 +96,10 @@ CI runs audits and this suite as separate jobs (`.github/workflows/ci.yml`).
 
 ## Languages and security
 
-- Edit `index.html`, then `npm run i18n`. Never edit `es/index.html` by hand.
+- Edit `index.html`, then `pnpm i18n`. Never edit `es/index.html` by hand.
 - Paths are root-absolute (`/src/...`, `/assets/...`) so one document works from `/` and `/es/`.
-- `_headers` is generated (`npm run csp`). Hashed CSP, no `'unsafe-inline'`, no third-party hosts except Formspree on `form-action` / `connect-src`.
-- Edit an inline block and the hash goes stale: production would block the page while local tests stayed green. `--check` runs in `npm test`.
+- `_headers` is generated (`pnpm csp`). Hashed CSP, no `'unsafe-inline'`, no third-party hosts except Formspree on `form-action` / `connect-src`.
+- Edit an inline block and the hash goes stale: production would block the page while local tests stayed green. `--check` runs in `pnpm test`.
 
 ## Layout
 
