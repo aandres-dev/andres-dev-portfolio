@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title data-es="andres.dev — Orquestador de IA &amp; Director de Arquitectura">andres.dev — AI Orchestrator &amp; Architectural Director</title>
   
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230a0a0e'/ %3E%3Ctext x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' fill='%23d4af37' font-family='monospace' font-weight='700' font-size='15'%3E%26lt;%26gt;%3C/text%3E%3C/svg%3E">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230a0a0e'/%3E%3Ctext x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' fill='%23d4af37' font-family='monospace' font-weight='700' font-size='15'%3E%26lt;%26gt;%3C/text%3E%3C/svg%3E">
   <!-- Primary Meta Tags -->
   <meta name="title" content="andres.dev — AI Orchestrator &amp; Architectural Director">
   <meta name="description" content="Official portfolio of Andres Lopez. Architecting, directing, and orchestrating AI to construct production-grade software with high performance, strict semantics, and senior architectural craft.">
@@ -56,7 +56,8 @@
     .nav-toggle{display:none;width:2.85rem;height:2.85rem;border:0;background:transparent;position:relative;z-index:150;color:var(--color-text-primary)}
     .nav-dock,.nav-dock-controls,.nav-dock-cta{display:contents}
     @media (max-width:1200px){
-      header.site-header{overflow:visible;-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px)}
+      header.site-header{overflow:visible}
+      header.site-header::before{-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px)}
       header.site-header nav{width:100%;display:flex;justify-content:space-between;align-items:center}
       .brandmark{position:relative;z-index:140}
       .nav-toggle{display:flex;align-items:center;justify-content:center;border-radius:999px;border:1px solid var(--color-border-subtle);background:var(--color-surface-base);cursor:pointer;padding:0;transition:transform var(--duration-fast) var(--ease-out-expo),border-color var(--duration-normal) var(--ease-out-expo),background-color var(--duration-normal) var(--ease-out-expo)}

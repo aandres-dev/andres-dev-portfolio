@@ -18,15 +18,24 @@
     top: 0;
     left: 0;
     z-index: 100;
-    background-color: var(--color-header);
-    backdrop-filter: blur(14px);
-    -webkit-backdrop-filter: blur(14px);
     border-bottom: 1px solid var(--color-border-subtle);
     height: var(--header-height);
     display: flex;
     align-items: center;
-    transition: border-color var(--duration-normal) var(--ease-out-expo),
-                background-color var(--duration-normal) var(--ease-out-expo);
+    transition: border-color var(--duration-normal) var(--ease-out-expo);
+  }
+
+  /* Blur must stay on a pseudo-element: on the header it becomes the
+     containing block for the fixed mobile menu and kills its backdrop. */
+  header.site-header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background-color: var(--color-header);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    transition: background-color var(--duration-normal) var(--ease-out-expo);
   }
 
   header.site-header nav {
@@ -48,38 +57,6 @@
     align-items: center;
     padding-top: calc(var(--header-height) + var(--space-xl));
     padding-bottom: var(--space-xl);
-  }
-
-  /* Responsive Grids */
-  .grid-showcase {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: var(--space-lg);
-    margin-top: var(--space-xl);
-  }
-
-  @media (min-width: 840px) {
-    .grid-showcase {
-      grid-template-columns: repeat(2, 1fr);
-    }
-  }
-
-  @media (min-width: 1140px) {
-    .grid-showcase {
-      grid-template-columns: repeat(12, 1fr);
-    }
-
-    .grid-showcase > article:nth-child(3n + 1) {
-      grid-column: span 7;
-    }
-
-    .grid-showcase > article:nth-child(3n + 2) {
-      grid-column: span 5;
-    }
-
-    .grid-showcase > article:nth-child(3n) {
-      grid-column: span 12;
-    }
   }
 
   .grid-manifesto {
