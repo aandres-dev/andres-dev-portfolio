@@ -36,9 +36,11 @@ export function buildHeaders(html) {
     `form-action 'self' https://formspree.io`,
     `connect-src 'self' https://formspree.io`,
     `script-src 'self' ${scripts}`,
-    `style-src 'self' ${styles} https://fonts.googleapis.com`,
-    `font-src 'self' https://fonts.gstatic.com`,
+    `style-src 'self' ${styles}`,
+    `font-src 'self'`,
     `img-src 'self' data:`,
+    `manifest-src 'self'`,
+    `worker-src 'none'`,
     `upgrade-insecure-requests`,
   ].join('; ');
 
@@ -49,9 +51,11 @@ export function buildHeaders(html) {
   Content-Security-Policy: ${csp}
   Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
   X-Content-Type-Options: nosniff
+  X-Frame-Options: DENY
   Referrer-Policy: strict-origin-when-cross-origin
-  Permissions-Policy: camera=(), microphone=(), geolocation=(), interest-cohort=()
+  Permissions-Policy: accelerometer=(), autoplay=(), camera=(), display-capture=(), encrypted-media=(), fullscreen=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), midi=(), payment=(), usb=(), xr-spatial-tracking=(), interest-cohort=()
   Cross-Origin-Opener-Policy: same-origin
+  Cross-Origin-Resource-Policy: same-origin
 
 /assets/*
   Cache-Control: public, max-age=31536000, immutable

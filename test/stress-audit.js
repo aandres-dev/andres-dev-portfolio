@@ -26,7 +26,9 @@ function runStressAudit() {
   const layoutCssSize = fs.statSync('src/styles/layout.css').size;
   const compCssSize = fs.statSync('src/styles/components.css').size;
   const animCssSize = fs.statSync('src/styles/animations.css').size;
-  const totalCssSize = mainCssSize + tokensCssSize + resetCssSize + layoutCssSize + compCssSize + animCssSize;
+  const fontCssSize = fs.statSync('src/styles/fonts.css').size;
+  const totalCssSize =
+    mainCssSize + tokensCssSize + resetCssSize + layoutCssSize + compCssSize + animCssSize + fontCssSize;
   const jsSize = fs.statSync('src/scripts/main.js').size;
 
   console.log(`Payload Weights:`);
@@ -45,6 +47,12 @@ function runStressAudit() {
   const heroImageSize = fs.statSync('assets/images/andres-480.avif').size;
   console.log(`- Hero portrait (LCP, AVIF 1x): ${(heroImageSize / 1024).toFixed(2)} KB`);
   assert(heroImageSize < 40 * 1024, `Hero portrait stays under its own budget (< 40KB)`);
+
+  // Self-hosted fonts are first-party bytes now, so they get a budget too.
+  const fontDir = 'assets/fonts';
+  const fontSize = fs.readdirSync(fontDir).reduce((t, f) => t + fs.statSync(`${fontDir}/${f}`).size, 0);
+  console.log(`- Self-hosted fonts: ${(fontSize / 1024).toFixed(2)} KB`);
+  assert(fontSize < 160 * 1024, `Self-hosted fonts stay under their budget (< 160KB)`);
 
   // 2. Hardware Compositor Animation Safety Audit
   const animCss = fs.readFileSync('src/styles/animations.css', 'utf8');

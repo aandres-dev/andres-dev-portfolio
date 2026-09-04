@@ -93,10 +93,11 @@ The reveal uses `@keyframes reveal-rise` and the stagger is an
 
 | Budget | Limit | Now |
 | --- | --- | --- |
-| `index.html` | 42 KB | 40.3 KB |
-| CSS total | 32 KB | 30.6 KB |
-| `src/scripts/main.js` | 16 KB | 15.8 KB |
+| `index.html` | 42 KB | 40.2 KB |
+| CSS total | 32 KB | 31.2 KB |
+| `src/scripts/main.js` | 16 KB | 15.2 KB |
 | Hero portrait, AVIF 1x | 40 KB | 17.5 KB |
+| Self-hosted fonts | 160 KB | 95 KB |
 
 **Why the image budget exists:** the text budgets passed comfortably while the
 hero portrait shipped 2.68 MB — roughly 32× every file they measured, combined.
@@ -200,6 +201,20 @@ The page keeps two inline blocks on purpose — a script that applies the stored
 theme before first paint, and the mobile navigation styles. Both are allowed by
 **SHA-256 hash**, not `'unsafe-inline'`, so anything injected later is still
 blocked.
+
+**The site loads nothing from a third party.** Fonts are self-hosted, so the
+policy needs no external origin at all:
+
+```
+default-src 'self'; base-uri 'none'; object-src 'none'; frame-ancestors 'none'
+script-src 'self' 'sha256-…'; style-src 'self' 'sha256-…'
+font-src 'self'; img-src 'self' data:; worker-src 'none'
+form-action / connect-src 'self' https://formspree.io
+```
+
+Four variable `woff2` files, 95 KB, one per family. Google Fonts cost two
+blocking round-trips across two origins and handed Google every visitor's IP;
+this costs one first-party request from the same CDN as the page.
 
 **Edit an inline block and the hash goes stale.** The deployed page would then
 be blocked by its own policy while every local check stayed green, so
