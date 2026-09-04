@@ -39,8 +39,8 @@ function runStressAudit() {
 
   // 42KB: the page carries its Spanish translation inline. See the README.
   assert(htmlSize < 42 * 1024, `HTML size is lean (< 42KB)`);
-  // 32KB: the CSP moved seven style attributes out of the markup into classes.
-  assert(totalCssSize < 32 * 1024, `Total CSS size is compact (< 32KB)`);
+  // 34KB: the contact receipt needed a surface, not a bare paragraph.
+  assert(totalCssSize < 34 * 1024, `Total CSS size is compact (< 34KB)`);
   assert(jsSize < 16 * 1024, `Runtime JS size is ultra-lightweight (< 16KB)`);
 
   // The LCP image gets its own budget: the text budgets ignored 2.68MB.

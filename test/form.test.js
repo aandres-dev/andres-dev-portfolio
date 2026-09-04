@@ -11,6 +11,8 @@ function element() {
     disabled: false,
     hidden: false,
     textContent: '',
+    offsetWidth: 0,
+    classList: { add() {}, remove() {} },
     addEventListener(type, listener) { listeners.set(type, listener); },
     emit(type) { return listeners.get(type)?.({ preventDefault() {}, target: this }); },
     focus() {},

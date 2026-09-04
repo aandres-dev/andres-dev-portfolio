@@ -44,9 +44,14 @@ function initContactForm(root, options = {}) {
 
   function setStatus(key) {
     if (!status) return;
-    status.setAttribute('data-i18n', `form.status.${key}`);
     const copy = STATUS[key];
-    if (copy) status.textContent = copy[lang()];
+    if (!copy) return;
+    status.setAttribute('data-i18n', `form.status.${key}`);
+    status.setAttribute('data-tone', key === 'success' ? 'success' : 'issue');
+    status.textContent = copy[lang()];
+    status.classList.remove('is-in');
+    void status.offsetWidth;
+    status.classList.add('is-in');
     status.focus?.();
   }
 

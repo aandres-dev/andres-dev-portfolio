@@ -64,7 +64,7 @@ reveal kills or delays card hover. The reveal uses `@keyframes reveal-rise` and
 | Budget | Limit |
 | --- | --- |
 | `index.html` | 42 KB |
-| CSS total | 32 KB |
+| CSS total | 34 KB |
 | `src/scripts/main.js` | 16 KB |
 | Hero portrait, AVIF 1x | 40 KB |
 | Self-hosted fonts | 160 KB |
