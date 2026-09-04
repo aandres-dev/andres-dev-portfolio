@@ -129,6 +129,21 @@
     gap: 0.35rem;
   }
 
+  .badge-logo {
+    width: 0.85em;
+    height: 0.85em;
+    display: inline-block;
+    background-color: currentColor;
+    -webkit-mask: var(--badge-logo) center / contain no-repeat;
+    mask: var(--badge-logo) center / contain no-repeat;
+  }
+
+  .badge-logo[data-logo="flutter"] { --badge-logo: url("/assets/icons/flutter.svg"); }
+  .badge-logo[data-logo="react"] { --badge-logo: url("/assets/icons/react.svg"); }
+  .badge-logo[data-logo="supabase"] { --badge-logo: url("/assets/icons/supabase.svg"); }
+  .badge-logo[data-logo="angular"] { --badge-logo: url("/assets/icons/angular.svg"); }
+  .badge-logo[data-logo="django"] { --badge-logo: url("/assets/icons/django.svg"); }
+
   .badge-crimson {
     border-color: var(--color-crimson-subtle);
     color: var(--color-crimson-bright);
