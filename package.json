@@ -8,8 +8,14 @@
     "test": "node script/csp.js --check && node test/markup.test.js && node test/stress-audit.js",
     "test:markup": "node test/markup.test.js",
     "test:stress": "node test/stress-audit.js",
-    "csp": "node script/csp.js"
+    "csp": "node script/csp.js",
+    "e2e": "playwright test",
+    "test:all": "npm test && npm run e2e"
   },
   "author": "Andres Lopez",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "@axe-core/playwright": "^4.13.0",
+    "@playwright/test": "^1.62.1"
+  }
 }

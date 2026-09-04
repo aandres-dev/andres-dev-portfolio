@@ -16,9 +16,10 @@ python3 -m http.server 8000    # serve the repository root
 npm test                       # CSP hashes + markup audit + payload audit
 node test/form.test.js         # contact form behaviour
 npm run csp                    # regenerate _headers after editing an inline block
+npm run e2e                    # browser + accessibility, needs npm ci first
 ```
 
-Expected: **21/21** markup checks, **8/8** payload checks, **2/2** form tests.
+Expected: **21/21** markup, **8/8** payload, **2/2** form, **28/28** browser.
 
 `file://` mostly renders, but anchors and the form behave differently. Use HTTP
 to verify anything.
@@ -105,6 +106,38 @@ in a real 320px viewport.
       magnetic buttons
 - [ ] Form fields carry labels, `autocomplete` and `maxlength`; status is
       announced through `role="status"`
+
+---
+
+## Browser and accessibility tests
+
+```bash
+npm ci && npm run e2e
+```
+
+Playwright drives real Chromium at **1440px and 320px**, and axe-core scans for
+WCAG 2.2 AA violations in dark, light, Spanish, the open mobile drawer and the
+404 page. `playwright.config.js` reuses a system Chromium when one exists, so a
+local run downloads no browsers.
+
+**Every test names the defect it would have caught.** These are regressions
+this site actually shipped, not coverage for its own sake:
+
+| Test | Regression |
+| --- | --- |
+| `project cards share one hover behaviour` | Layer demotion killed the hover lift, then the stagger delayed it 80–160ms |
+| `the mobile drawer opens over an opaque panel` | `backdrop-filter` on the header left the drawer with no background |
+| `no horizontal overflow` | A grid item clipped the manifesto text at 320px |
+| `the contact form posts to the live endpoint` | The endpoint shipped empty and every submission reported failure |
+| `dark theme has no accessibility violations` | Muted text sat at 3.46:1 on 14px body copy |
+| `github is a real link and linkedin is inert` | GitHub was a `<button>` calling `window.open` |
+
+Both were confirmed to fail on purpose before being trusted: reverting the
+stagger fix produces `Expected "0s,0s,0s" / Received "0.08s"`, and reverting the
+contrast token produces `color-contrast (serious)`.
+
+CI runs the dependency-free audits and this suite as separate jobs
+(`.github/workflows/ci.yml`).
 
 ---
 

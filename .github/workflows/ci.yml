@@ -1,0 +1,41 @@
+name: CI
+
+on:
+  push:
+    branches: ['**']
+  pull_request:
+
+jobs:
+  audits:
+    name: Static audits
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      # CSP hashes, markup semantics, payload budgets and form behaviour.
+      # No dependencies needed: these run on the Node standard library.
+      - run: node script/csp.js --check
+      - run: node test/markup.test.js
+      - run: node test/stress-audit.js
+      - run: node test/form.test.js
+
+  e2e:
+    name: Browser and accessibility
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - run: npm ci
+      # No system Chromium on the runner, so Playwright supplies its own.
+      - run: npx playwright install --with-deps chromium
+      - run: npx playwright test
+      - uses: actions/upload-artifact@v4
+        if: failure()
+        with:
+          name: playwright-report
+          path: playwright-report/
+          retention-days: 7

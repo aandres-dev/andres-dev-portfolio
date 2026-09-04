@@ -12,3 +12,7 @@ dist/
 # Personal memory backups (not site content)
 andres-profile-engram-backup.json
 andres-profile-memory.md
+
+# Playwright
+test-results/
+playwright-report/
