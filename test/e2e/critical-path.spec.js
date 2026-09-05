@@ -110,7 +110,7 @@ test('the language switch navigates to a real Spanish URL', async ({ page }) => 
   await expect(page.locator('#manifesto-heading')).toHaveText(/Conceptos/);
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
     'href',
-    'https://andres.dev/es/',
+    'https://andres-dev-portfolio.netlify.app/es/',
   );
 
   await revealControls(page);
@@ -126,9 +126,9 @@ test('both languages declare the same hreflang set', async ({ page }) => {
       els.map((el) => `${el.hreflang}=${el.href}`).sort(),
     );
     expect(links).toEqual([
-      'en=https://andres.dev/',
-      'es=https://andres.dev/es/',
-      'x-default=https://andres.dev/',
+      'en=https://andres-dev-portfolio.netlify.app/',
+      'es=https://andres-dev-portfolio.netlify.app/es/',
+      'x-default=https://andres-dev-portfolio.netlify.app/',
     ]);
   }
 });
@@ -179,6 +179,53 @@ test('invalid input never leaves the browser', async ({ page }) => {
   await expect(page.locator('#contact-email')).toHaveJSProperty('validity.valid', false);
   await expect(page.locator('#contact-status')).toHaveText('');
   expect(requested).toBe(false);
+});
+
+test('in-page anchors respect prefers-reduced-motion', async ({ page }) => {
+  // Guards the smooth scrollIntoView that ran unconditionally.
+  await page.emulateMedia({ reducedMotion: 'reduce' });
+  await page.addInitScript(() => {
+    window.__scrollBehaviors = [];
+    const original = Element.prototype.scrollIntoView;
+    Element.prototype.scrollIntoView = function (opts) {
+      window.__scrollBehaviors.push(opts && opts.behavior);
+      return original.call(this, opts);
+    };
+  });
+  await page.goto('/');
+
+  await revealControls(page);
+  await page.locator('a.nav-link[href="#manifesto"]').click();
+
+  const behaviors = await page.evaluate(() => window.__scrollBehaviors);
+  expect(behaviors).toContain('auto');
+  expect(behaviors).not.toContain('smooth');
+});
+
+test('the mobile drawer unlocks scroll after crossing to desktop width', async ({ page }) => {
+  // Guards body.style.overflow staying "hidden" once the drawer's own
+  // media query stops rendering it as a full-screen panel.
+  await page.setViewportSize({ width: 800, height: 900 });
+  await page.locator('#nav-toggle').click();
+  await expect(page.locator('#site-menu')).toHaveClass(/is-open/);
+  await expect(page.locator('body')).toHaveCSS('overflow', 'hidden');
+
+  await page.setViewportSize({ width: 1440, height: 900 });
+  await expect(page.locator('body')).not.toHaveCSS('overflow', 'hidden');
+  await expect(page.locator('#site-menu')).not.toHaveClass(/is-open/);
+  await expect(page.locator('#nav-toggle')).toHaveAttribute('aria-expanded', 'false');
+});
+
+test('the mobile nav toggle announces itself in Spanish on /es/', async ({ page }) => {
+  // Guards the hardcoded "Open menu"/"Close menu" aria-label leaking into
+  // a page declared lang="es" (WCAG 3.1.2 Language of Parts).
+  await page.setViewportSize({ width: 800, height: 900 });
+  await page.goto('/es/');
+  const toggle = page.locator('#nav-toggle');
+  await expect(toggle).toHaveAttribute('aria-label', 'Abrir menú');
+
+  await toggle.click();
+  await expect(toggle).toHaveAttribute('aria-label', 'Cerrar menú');
 });
 
 test('github is a real link and linkedin is inert', async ({ page }) => {

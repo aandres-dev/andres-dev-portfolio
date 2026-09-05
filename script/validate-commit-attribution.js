@@ -3,7 +3,7 @@
 
 import { execFileSync } from 'node:child_process';
 
-const FORBIDDEN = [
+export const FORBIDDEN = [
   /^\s*Co-Authored-By:/im,
   /^\s*Claude-Session:/im,
   /noreply@anthropic\.com/i,

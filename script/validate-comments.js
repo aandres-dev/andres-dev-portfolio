@@ -26,7 +26,7 @@ function filesToCheck(dir) {
 }
 
 // Groups consecutive comment lines into blocks.
-function blocksIn(lines) {
+export function blocksIn(lines) {
   const blocks = [];
   let current = null;
   let inBlockComment = false;

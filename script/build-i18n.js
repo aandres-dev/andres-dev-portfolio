@@ -9,7 +9,7 @@ const SOURCE = path.join(ROOT, 'index.html');
 const OUT_DIR = path.join(ROOT, 'es');
 const OUT = path.join(OUT_DIR, 'index.html');
 
-const ORIGIN = 'https://andres.dev';
+const ORIGIN = 'https://andres-dev-portfolio.netlify.app';
 
 // Head strings, which live in attributes and so cannot use data-es.
 const META = {
@@ -21,6 +21,20 @@ const META = {
     'Dirigir IA para construir sistemas de producción con disciplina de arquitectura, modelado de dominio y desarrollo guiado por especificación.',
   'Andres Lopez, Software AI Orchestrator. The Human Directs. The Machine Executes.':
     'Andrés López, Orquestador de software con IA. El humano dirige. La máquina ejecuta.',
+};
+
+// aria-label values, which live in attributes and so cannot use data-es.
+const ARIA = {
+  'aria-label="Main Navigation"': 'aria-label="Navegación principal"',
+  'aria-label="Andres Lopez home link"': 'aria-label="Enlace de inicio de Andres Lopez"',
+  'aria-label="Open menu"': 'aria-label="Abrir menú"',
+  'aria-label="Language selector"': 'aria-label="Selector de idioma"',
+  'aria-label="Switch theme"': 'aria-label="Cambiar tema"',
+  'aria-label="Hero actions"': 'aria-label="Acciones principales"',
+  'aria-label="Architectural Director Card"': 'aria-label="Tarjeta de Director de Arquitectura"',
+  'aria-label="How I direct AI"': 'aria-label="Cómo dirijo la IA"',
+  'aria-label="Open GitHub profile in a new tab"': 'aria-label="Abrir perfil de GitHub en una pestaña nueva"',
+  'aria-label="Open LinkedIn profile in a new tab"': 'aria-label="Abrir perfil de LinkedIn en una pestaña nueva"',
 };
 
 // Turns escaped tags back into markup, leaving every other entity escaped.
@@ -60,6 +74,19 @@ function translateHead(html) {
   return { html: out, missing };
 }
 
+function translateAria(html) {
+  const missing = [];
+  let out = html;
+  for (const [en, es] of Object.entries(ARIA)) {
+    if (!out.includes(en)) {
+      missing.push(en);
+      continue;
+    }
+    out = out.split(en).join(es);
+  }
+  return { html: out, missing };
+}
+
 function localiseLinks(html) {
   return html
     .replace('<html lang="en">', '<html lang="es">')
@@ -85,10 +112,11 @@ function localiseLinks(html) {
 export function buildSpanish(source) {
   const body = translateBody(source);
   const head = translateHead(body.html);
+  const aria = translateAria(head.html);
   return {
-    html: localiseLinks(head.html),
+    html: localiseLinks(aria.html),
     applied: body.applied,
-    missing: head.missing,
+    missing: [...head.missing, ...aria.missing],
   };
 }
 

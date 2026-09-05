@@ -58,7 +58,7 @@ export function buildHeaders(html) {
   Cross-Origin-Resource-Policy: same-origin
 
 /assets/*
-  Cache-Control: public, max-age=31536000, immutable
+  Cache-Control: public, max-age=3600
 
 /src/*
   Cache-Control: public, max-age=3600

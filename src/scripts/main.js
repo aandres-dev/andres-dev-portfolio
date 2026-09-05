@@ -70,7 +70,8 @@
       if (!href || href === '#' || href === '#!') return;
       try {
         const el = document.querySelector(href);
-        if (el) el.scrollIntoView({ behavior: 'smooth' });
+        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (el) el.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth' });
       } catch (_) {}
     });
   }
@@ -361,9 +362,12 @@
     const toggle = document.getElementById('nav-toggle');
     const menu = document.getElementById('site-menu');
     if (!toggle || !menu) return;
+    const isEs = document.documentElement.lang === 'es';
     function setOpen(open) {
       toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
-      toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
+      toggle.setAttribute('aria-label', open
+        ? (isEs ? 'Cerrar menú' : 'Close menu')
+        : (isEs ? 'Abrir menú' : 'Open menu'));
       menu.classList.toggle('is-open', open);
       document.body.style.overflow = open ? 'hidden' : '';
     }
@@ -378,6 +382,11 @@
     });
     window.addEventListener('keydown', function (e) {
       if (e.key === 'Escape' && menu.classList.contains('is-open')) setOpen(false);
+    });
+    // The drawer only exists below 1200px (see index.html's inline media query);
+    // crossing above it must release the scroll lock even without a click.
+    window.matchMedia('(min-width: 1200px)').addEventListener('change', function (e) {
+      if (e.matches && menu.classList.contains('is-open')) setOpen(false);
     });
   }
 
