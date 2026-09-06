@@ -29,19 +29,7 @@
   [data-stagger="3"] { --reveal-delay: 240ms; }
   [data-stagger="4"] { --reveal-delay: 320ms; }
 
-  /* Crimson Pulse Effect */
-  @keyframes crimsonPulse {
-    0%, 100% {
-      box-shadow: 0 0 0 0 oklch(0.56 0.24 25 / 0.4);
-    }
-    50% {
-      box-shadow: 0 0 0 8px oklch(0.56 0.24 25 / 0);
-    }
-  }
 
-  .pulse-indicator {
-    animation: crimsonPulse 2.8s infinite var(--ease-in-out-cubic);
-  }
 
   /* Accessible Text Utilities */
   .visually-hidden {
@@ -66,8 +54,5 @@
       will-change: auto !important;
     }
 
-    .pulse-indicator {
-      animation: none !important;
-    }
   }
 }
