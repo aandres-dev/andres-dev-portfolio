@@ -292,22 +292,22 @@
           <!-- Case Study 1: Campus Access Control & Operations -->
           <article class="project-card spotlight-card bento-half" data-animate="reveal" data-stagger="1">
             <header class="project-header">
-              <span class="badge badge-crimson" data-es="Caso de Estudio &bull; Web &amp; Móvil">Case Study &bull; Web &amp; Mobile</span>
+              <span class="badge badge-crimson" data-es="Caso de Estudio &bull; Seguridad en Campus">Case Study &bull; Campus Security</span>
               <span class="badge badge-gold" data-es="320+ Commits SDD">320+ SDD Commits</span>
             </header>
 
-            <h3 class="project-title" data-es="Control de Acceso y Operaciones en Campus">Campus Access Control &amp; Operations</h3>
-            <p class="project-summary" data-es="Plataforma integral para gestión operativa de seguridad física en campus: control de accesos por porterías, turnos de guardas, permisos por roles y asignación de personal. Construido bajo especificaciones formales y arquitectura desacoplada.">
-              Comprehensive platform for campus physical security: multi-gate access control, guard shift handovers, role permissions, and staff assignments. Built under formal specifications and decoupled architecture.
+            <h3 class="project-title" data-es="Control de Acceso y Operación en Campus">Campus Access Control &amp; Operations</h3>
+            <p class="project-summary" data-es="Seguridad física en campus: resolución de cuellos de botella en horas pico y relevos de guardia. Diseñé separación estricta de roles y clientes web/móvil desacoplados con validación continua de accesos.">
+              Campus security platform solving peak-hour bottlenecks and guard shift handovers. Modeled strict role separation and decoupled web/mobile clients with continuous access validation.
             </p>
 
             <dl class="project-meta-list">
-              <dt class="project-meta-label" data-es="Arquitectura:">Architecture:</dt>
-              <dd class="project-meta-val" data-es="Django DRF &bull; Angular Zoneless &bull; Flutter">Django DRF &bull; Angular Zoneless &bull; Flutter</dd>
-              <dt class="project-meta-label" data-es="Base de Datos:">Database:</dt>
-              <dd class="project-meta-val" data-es="PostgreSQL &bull; Permisos Estrictos">PostgreSQL &bull; Strict Role &amp; Grant Schemas</dd>
+              <dt class="project-meta-label" data-es="Decisión de Producto:">Product Decision:</dt>
+              <dd class="project-meta-val" data-es="Lógica de dominio desacoplada para agilizar el paso en portería">Decoupled domain logic to accelerate gate throughput</dd>
+              <dt class="project-meta-label" data-es="Alternativa Rechazada:">Rejected Alternative:</dt>
+              <dd class="project-meta-val" data-es="Lógica monolítica acoplada que trababa los relevos de puesto">Coupled client logic that stalled shift handovers</dd>
               <dt class="project-meta-label" data-es="Verificación:">Verification:</dt>
-              <dd class="project-meta-val" data-es="TDD &bull; E2E Playwright &bull; ADRs">TDD &bull; Playwright E2E &bull; Architecture ADRs</dd>
+              <dd class="project-meta-val" data-es="TDD &bull; E2E Playwright &bull; ADRs de Arquitectura">TDD &bull; Playwright E2E &bull; Formal Architecture ADRs</dd>
             </dl>
 
             <footer class="project-footer">
@@ -325,22 +325,22 @@
           <!-- Case Study 2: Offline-First Security Patrol Mobile App -->
           <article class="project-card spotlight-card bento-half" data-animate="reveal" data-stagger="2">
             <header class="project-header">
-              <span class="badge badge-crimson" data-es="Caso de Estudio &bull; Móvil">Case Study &bull; Mobile</span>
+              <span class="badge badge-crimson" data-es="Caso de Estudio &bull; Campo Móvil">Case Study &bull; Field Mobile</span>
               <span class="badge" data-es="Offline-First">Offline-First</span>
             </header>
 
             <h3 class="project-title" data-es="Rondas de Seguridad Offline-First">Offline-First Security Patrols</h3>
-            <p class="project-summary" data-es="Aplicación móvil para supervisión y registro de rondas en puestos de vigilancia sin cobertura. Persistencia local resiliente con sincronización automática de incidencias.">
-              Mobile application for security patrol tracking across zero-connectivity posts. Resilient local storage with automatic incident synchronization upon reconnect.
+            <p class="project-summary" data-es="Patrullaje para guardas en puestos sin señal. Diseñé registro local en un solo toque y sincronización automática en segundo plano, evitando pérdida de registros al cortar la red.">
+              Field patrol system for guards in zero-connectivity posts. Designed single-tap local logging and automatic background sync, preventing log loss when network drops.
             </p>
 
             <dl class="project-meta-list">
-              <dt class="project-meta-label" data-es="Stack Móvil:">Mobile Stack:</dt>
-              <dd class="project-meta-val" data-es="Flutter &bull; Supabase &bull; React">Flutter &bull; Supabase &bull; React</dd>
-              <dt class="project-meta-label" data-es="Resiliencia:">Resilience:</dt>
-              <dd class="project-meta-val" data-es="Persistencia local sin conexión">Local offline persistence</dd>
-              <dt class="project-meta-label" data-es="Enfoque:">Field Focus:</dt>
-              <dd class="project-meta-val" data-es="Seguridad física operativa">Operational field security</dd>
+              <dt class="project-meta-label" data-es="Decisión de Producto:">Product Decision:</dt>
+              <dd class="project-meta-val" data-es="Persistencia local prioritaria: el guarda registra sin esperar red">Local-first event queue: guards register without waiting for network</dd>
+              <dt class="project-meta-label" data-es="Alternativa Rechazada:">Rejected Alternative:</dt>
+              <dd class="project-meta-val" data-es="Formularios en la nube que exigían señal antes de cada punto">Cloud-first forms that blocked check-ins on network drops</dd>
+              <dt class="project-meta-label" data-es="Verificación:">Verification:</dt>
+              <dd class="project-meta-val" data-es="Pruebas de caída de red &bull; Colas resilientes">Offline dropout simulation &bull; Resilient queues</dd>
             </dl>
 
             <footer class="project-footer">
@@ -361,18 +361,18 @@
               <span class="badge" data-es="Desarrollo Guiado por Especificaciones">Spec-Driven Development</span>
             </header>
 
-            <h3 class="project-title" data-es="Flujo de Desarrollo con IA (SDD)">How I Direct AI (SDD)</h3>
-            <p class="project-summary" data-es="La metodología con la que dirijo la IA: traduzco las reglas del negocio en contratos formales (Given/When/Then). Guío a los agentes para construir arquitecturas limpias y modulares, validando cada cambio con pruebas automatizadas rigurosas antes de pasar a producción.">
-              The method I use to direct AI: I turn business rules into Given/When/Then contracts. I guide the agents, and I do not accept a change until automated tests prove it works.
+            <h3 class="project-title" data-es="Dirección de Producto con IA (SDD)">How I Direct AI (SDD)</h3>
+            <p class="project-summary" data-es="Cómo construyo software con IA: traduzco reglas operativas en especificaciones formales (Given/When/Then). Dirijo a los agentes en arquitecturas limpias y exijo pruebas automatizadas antes de aceptar cualquier cambio.">
+              How I build software with AI: I translate operational requirements into formal Given/When/Then specifications. I guide agents across clean architectures and require automated tests before accepting any diff.
             </p>
 
             <dl class="project-meta-list">
-              <dt class="project-meta-label" data-es="Principio:">Operating Philosophy:</dt>
-              <dd class="project-meta-val" data-es="El humano lidera &bull; La IA ejecuta">Human Directs &bull; Machine Executes</dd>
+              <dt class="project-meta-label" data-es="Tesis Central:">Core Thesis:</dt>
+              <dd class="project-meta-val" data-es="Generar código es barato; entender el problema y verificar exige criterio">Code generation is cheap; domain modeling &amp; verification demand direction</dd>
+              <dt class="project-meta-label" data-es="Filtro de Calidad:">Quality Gate:</dt>
+              <dd class="project-meta-val" data-es="Revisión adversarial multiagente &bull; Cero código sin pruebas">Multi-agent adversarial review &bull; Zero untested merges</dd>
               <dt class="project-meta-label" data-es="Metodología:">Methodology:</dt>
-              <dd class="project-meta-val" data-es="SDD, RDD y TDD">SDD, RDD and TDD</dd>
-              <dt class="project-meta-label" data-es="Control de Calidad:">Quality Verification:</dt>
-              <dd class="project-meta-val" data-es="Revisión y auditoría con múltiples agentes">Multi-Agent Adversarial Quality Gate</dd>
+              <dd class="project-meta-val" data-es="Desarrollo Guiado por Especificaciones (SDD) &bull; RDD &bull; TDD">Spec-Driven (SDD) &bull; Receipt-Driven (RDD) &bull; TDD</dd>
             </dl>
 
             <footer class="project-footer">
@@ -471,25 +471,23 @@
           </article>
 
           <article class="arsenal-card" data-animate="reveal" data-stagger="3">
-            <h3 class="arsenal-category" data-es="Lo que sé leer">What I can read</h3>
+            <h3 class="arsenal-category" data-es="Arquitectura y Diseño">Architecture &amp; Design</h3>
             <ul class="arsenal-items">
-              <li class="badge badge-crimson">HTML</li>
-              <li class="badge">CSS</li>
-              <li class="badge" data-es="JavaScript (en ello)">JavaScript (learning)</li>
+              <li class="badge badge-crimson">Clean Architecture</li>
+              <li class="badge">Domain-Driven Design</li>
+              <li class="badge" data-es="Diseño de interacción">Interaction design</li>
+              <li class="badge">Semantic HTML &amp; CSS</li>
             </ul>
           </article>
 
           <article class="arsenal-card" data-animate="reveal" data-stagger="4">
-            <h3 class="arsenal-category" data-es="Estudio ahora">Studying now</h3>
+            <h3 class="arsenal-category" data-es="Aprendizaje continuo">Continuous learning</h3>
             <ul class="arsenal-items">
-              <li class="badge">HTML, CSS &amp; JS</li>
-              <li class="badge">Flutter</li>
-              <li class="badge">React</li>
-              <li class="badge">Node.js</li>
-              <li class="badge">TypeScript</li>
-              <li class="badge">SQL</li>
-              <li class="badge">Monorepos</li>
-              <li class="badge">Docker &amp; GitHub Actions</li>
+              <li class="badge">JavaScript &amp; TypeScript</li>
+              <li class="badge">Flutter &amp; Dart</li>
+              <li class="badge">React &amp; Web Standards</li>
+              <li class="badge">PostgreSQL &amp; SQLite</li>
+              <li class="badge">Docker &amp; CI/CD</li>
             </ul>
           </article>
         </div>
