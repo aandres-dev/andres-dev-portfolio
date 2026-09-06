@@ -203,6 +203,8 @@
     border-radius: 999px;
     position: relative;
     overflow: hidden;
+    white-space: nowrap;
+    flex-shrink: 0;
     box-shadow: inset 0 1px 1px oklch(1 0 0 / 0.14);
     transition: all var(--duration-normal) var(--ease-out-expo);
   }
@@ -471,7 +473,9 @@
   .project-footer {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-end;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
     margin-top: auto;
     position: relative;
     z-index: 2;
@@ -495,6 +499,10 @@
   @media (min-width: 900px) {
     .grid-bento {
       grid-template-columns: repeat(12, 1fr);
+    }
+
+    .bento-half {
+      grid-column: span 6;
     }
 
     .bento-wide {
