@@ -351,6 +351,7 @@
       b.setAttribute('aria-pressed', active ? 'true' : 'false');
       b.addEventListener('click', () => {
         if (active) return;
+        try { localStorage.setItem('preferred-lang', lang); } catch (e) {}
         window.location.href = target[lang] + window.location.hash;
       });
     });

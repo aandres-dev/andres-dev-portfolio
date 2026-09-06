@@ -13,6 +13,13 @@
   <meta name="theme-color" content="#0a0a0e">
   <script>
     try {
+      if (!location.pathname.startsWith('/es')) {
+        var pl = localStorage.getItem('preferred-lang');
+        var nl = ((navigator.languages && navigator.languages[0]) || navigator.language || '').toLowerCase();
+        if (pl === 'es' || (!pl && nl.startsWith('es'))) {
+          location.replace('/es/' + location.search + location.hash);
+        }
+      }
       var s = localStorage.getItem('preferred-theme');
       var h = new Date().getHours();
       var t = s || (h >= 6 && h < 18 ? 'light' : 'dark');

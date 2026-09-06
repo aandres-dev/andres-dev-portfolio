@@ -133,6 +133,28 @@ test('both languages declare the same hreflang set', async ({ page }) => {
   }
 });
 
+test('spanish browser auto-redirects to /es/ on initial visit', async ({ browser }) => {
+  const context = await browser.newContext({ locale: 'es-CO' });
+  const page = await context.newPage();
+  await page.goto('/');
+  await expect(page).toHaveURL(/\/es\/$/);
+  await expect(page.locator('html')).toHaveAttribute('lang', 'es');
+  await context.close();
+});
+
+test('english choice overrides spanish browser language', async ({ browser }) => {
+  const context = await browser.newContext({ locale: 'es-CO' });
+  const page = await context.newPage();
+  await page.goto('/es/');
+  await revealControls(page);
+  await page.locator('[data-lang-btn="en"]').click();
+  await expect(page).toHaveURL(/\/$/);
+
+  await page.goto('/');
+  await expect(page).toHaveURL(/\/$/);
+  await context.close();
+});
+
 test('the theme switch toggles and persists', async ({ page }) => {
   const html = page.locator('html');
   const wasLight = (await html.getAttribute('data-theme')) === 'light';
