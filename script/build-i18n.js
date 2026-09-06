@@ -13,14 +13,14 @@ const ORIGIN = 'https://andres-dev-portfolio.netlify.app';
 
 // Head strings, which live in attributes and so cannot use data-es.
 const META = {
-  'andres.dev — AI-Assisted Software Engineer · Product &amp; AI Orchestration':
-    'andres.dev — Ingeniero de Software Asistido por IA · Producto &amp; Orquestación',
-  'Portfolio of Andres Lopez. AI-assisted software engineer specializing in product delivery, domain modeling, clean architecture, and rigorous AI orchestration.':
-    'Portafolio de Andrés López. Ingeniero de software asistido por IA especializado en entrega de producto, modelado de dominio, arquitectura limpia y orquestación rigurosa de IA.',
-  'AI-assisted software engineer building production systems through clean architecture, domain modeling, and Spec-Driven Development.':
-    'Ingeniero de software asistido por IA construyendo sistemas de producción con arquitectura limpia, modelado de dominio y desarrollo guiado por especificación.',
-  'Andres Lopez, AI-Assisted Software Engineer. The Human Directs. The Machine Executes.':
-    'Andrés López, Ingeniero de software asistido por IA. El humano dirige. La máquina ejecuta.',
+  'Andrés López — AI Product Orchestrator | Product &amp; AI Delivery':
+    'Andrés López — Orquestador de Producto con IA | Producto y Entrega Verificada',
+  'Portfolio of Andrés López, AI Product Orchestrator based in Colombia. Human-directed, AI-assisted product design, domain modeling, and verified software delivery.':
+    'Portafolio de Andrés López, Orquestador de Producto con IA en Colombia. Diseño de producto guiado por humanos, modelado de dominio y entrega de software verificada.',
+  'Human-directed, AI-assisted product design, domain modeling, and verified delivery. Based in Colombia.':
+    'Diseño de producto guiado por humanos, modelado de dominio y entrega verificada asistida por IA. Desde Colombia.',
+  'Andres Lopez, AI Product Orchestrator. The Human Directs. The Machine Executes.':
+    'Andrés López, Orquestador de Producto con IA. El humano dirige. La máquina ejecuta.',
 };
 
 // aria-label values, which live in attributes and so cannot use data-es.
