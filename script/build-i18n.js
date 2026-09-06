@@ -13,14 +13,14 @@ const ORIGIN = 'https://andres-dev-portfolio.netlify.app';
 
 // Head strings, which live in attributes and so cannot use data-es.
 const META = {
-  'andres.dev — AI Orchestrator &amp; Architectural Director':
-    'andres.dev — Orquestador de IA &amp; Director de Arquitectura',
-  'Official portfolio of Andres Lopez. Architecting, directing, and orchestrating AI to construct production-grade software with high performance, strict semantics, and senior architectural craft.':
-    'Portafolio de Andrés López. Arquitectura, dirección y orquestación de IA para construir software listo para producción, con buen rendimiento, semántica estricta y criterio de arquitectura.',
-  'Directing AI to engineer production systems through architectural discipline, domain modeling, and Spec-Driven Development.':
-    'Dirigir IA para construir sistemas de producción con disciplina de arquitectura, modelado de dominio y desarrollo guiado por especificación.',
-  'Andres Lopez, Software AI Orchestrator. The Human Directs. The Machine Executes.':
-    'Andrés López, Orquestador de software con IA. El humano dirige. La máquina ejecuta.',
+  'andres.dev — AI-Assisted Software Engineer · Product &amp; AI Orchestration':
+    'andres.dev — Ingeniero de Software Asistido por IA · Producto &amp; Orquestación',
+  'Portfolio of Andres Lopez. AI-assisted software engineer specializing in product delivery, domain modeling, clean architecture, and rigorous AI orchestration.':
+    'Portafolio de Andrés López. Ingeniero de software asistido por IA especializado en entrega de producto, modelado de dominio, arquitectura limpia y orquestación rigurosa de IA.',
+  'AI-assisted software engineer building production systems through clean architecture, domain modeling, and Spec-Driven Development.':
+    'Ingeniero de software asistido por IA construyendo sistemas de producción con arquitectura limpia, modelado de dominio y desarrollo guiado por especificación.',
+  'Andres Lopez, AI-Assisted Software Engineer. The Human Directs. The Machine Executes.':
+    'Andrés López, Ingeniero de software asistido por IA. El humano dirige. La máquina ejecuta.',
 };
 
 // aria-label values, which live in attributes and so cannot use data-es.
@@ -31,7 +31,9 @@ const ARIA = {
   'aria-label="Language selector"': 'aria-label="Selector de idioma"',
   'aria-label="Switch theme"': 'aria-label="Cambiar tema"',
   'aria-label="Hero actions"': 'aria-label="Acciones principales"',
-  'aria-label="Architectural Director Card"': 'aria-label="Tarjeta de Director de Arquitectura"',
+  'aria-label="Identity and Status Card"': 'aria-label="Tarjeta de Identidad y Estado"',
+  'aria-label="Access system technologies"': 'aria-label="Tecnologías del sistema de acceso"',
+  'aria-label="Patrol platform technologies"': 'aria-label="Tecnologías de la plataforma de rondas"',
   'aria-label="How I direct AI"': 'aria-label="Cómo dirijo la IA"',
   'aria-label="Open GitHub profile in a new tab"': 'aria-label="Abrir perfil de GitHub en una pestaña nueva"',
   'aria-label="Open LinkedIn profile in a new tab"': 'aria-label="Abrir perfil de LinkedIn en una pestaña nueva"',
@@ -106,6 +108,14 @@ function localiseLinks(html) {
     .replace(
       '<meta property="og:locale:alternate" content="es_ES">',
       '<meta property="og:locale:alternate" content="en_US">',
+    )
+    .replace(
+      '<button type="button" class="lang-btn is-active" data-lang-btn="en" aria-pressed="true">EN</button>',
+      '<button type="button" class="lang-btn" data-lang-btn="en" aria-pressed="false">EN</button>',
+    )
+    .replace(
+      '<button type="button" class="lang-btn" data-lang-btn="es" aria-pressed="false">ES</button>',
+      '<button type="button" class="lang-btn is-active" data-lang-btn="es" aria-pressed="true">ES</button>',
     );
 }
 

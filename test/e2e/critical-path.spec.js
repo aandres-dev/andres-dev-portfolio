@@ -62,7 +62,7 @@ test('the skip link stays hidden until focused', async ({ page }) => {
 test('project cards share one hover behaviour', async ({ page }) => {
   // Guards the layer demotion and the stagger that killed the hover lift.
   const cards = page.locator('.project-card.spotlight-card');
-  await expect(cards).toHaveCount(1);
+  await expect(cards).toHaveCount(3);
 
   const state = await cards.evaluateAll((els) =>
     els.map((el) => {
@@ -148,7 +148,7 @@ test('the theme switch toggles and persists', async ({ page }) => {
 test('the contact form posts to the live endpoint', async ({ page }) => {
   // Guards the empty endpoint that made every submission report failure.
   let posted = null;
-  await page.route('https://formspree.io/**', async (route) => {
+  await page.route('**/api/contact', async (route) => {
     posted = { url: route.request().url(), method: route.request().method() };
     await route.fulfill({ status: 200, contentType: 'application/json', body: '{"ok":true}' });
   });
@@ -159,14 +159,15 @@ test('the contact form posts to the live endpoint', async ({ page }) => {
   await page.locator('#contact-form button[type="submit"]').click();
 
   await expect(page.locator('#contact-status')).toHaveText(/Message sent/);
-  expect(posted).toEqual({ url: 'https://formspree.io/f/xeaqzrke', method: 'POST' });
+  expect(posted?.url).toContain('/api/contact');
+  expect(posted?.method).toBe('POST');
 });
 
 test('invalid input never leaves the browser', async ({ page }) => {
   // Constraint validation blocks the submit, so form.js never runs and the
   // status stays empty. What matters is that nothing is sent.
   let requested = false;
-  await page.route('https://formspree.io/**', async (route) => {
+  await page.route('**/api/contact', async (route) => {
     requested = true;
     await route.abort();
   });
