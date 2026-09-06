@@ -24,14 +24,20 @@ async function scan(page, options = {}) {
 
 test('dark theme has no accessibility violations', async ({ page }) => {
   await page.goto('/');
+  if ((await page.locator('html').getAttribute('data-theme')) === 'light') {
+    await revealControls(page);
+    await page.locator('#theme-toggle').click();
+  }
   const { violations } = await scan(page);
   expect(report(violations), report(violations)).toBe('');
 });
 
 test('light theme has no accessibility violations', async ({ page }) => {
   await page.goto('/');
-  await revealControls(page);
-  await page.locator('#theme-toggle').click();
+  if ((await page.locator('html').getAttribute('data-theme')) !== 'light') {
+    await revealControls(page);
+    await page.locator('#theme-toggle').click();
+  }
   await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
 
   const { violations } = await scan(page);

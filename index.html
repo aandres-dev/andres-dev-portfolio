@@ -13,7 +13,10 @@
   <meta name="theme-color" content="#0a0a0e">
   <script>
     try {
-      if (localStorage.getItem('preferred-theme') === 'light') {
+      var s = localStorage.getItem('preferred-theme');
+      var h = new Date().getHours();
+      var t = s || (h >= 6 && h < 18 ? 'light' : 'dark');
+      if (t === 'light') {
         document.documentElement.setAttribute('data-theme', 'light');
         document.querySelector('meta[name="theme-color"]').setAttribute('content', '#f7f6f2');
       }

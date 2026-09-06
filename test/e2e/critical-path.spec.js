@@ -135,14 +135,32 @@ test('both languages declare the same hreflang set', async ({ page }) => {
 
 test('the theme switch toggles and persists', async ({ page }) => {
   const html = page.locator('html');
-  await expect(html).not.toHaveAttribute('data-theme', 'light');
+  const wasLight = (await html.getAttribute('data-theme')) === 'light';
 
   await revealControls(page);
   await page.locator('#theme-toggle').click();
-  await expect(html).toHaveAttribute('data-theme', 'light');
+  if (wasLight) {
+    await expect(html).not.toHaveAttribute('data-theme', 'light');
+  } else {
+    await expect(html).toHaveAttribute('data-theme', 'light');
+  }
 
   await page.reload();
-  await expect(html).toHaveAttribute('data-theme', 'light');
+  if (wasLight) {
+    await expect(html).not.toHaveAttribute('data-theme', 'light');
+  } else {
+    await expect(html).toHaveAttribute('data-theme', 'light');
+  }
+});
+
+test('activates daytime light theme and nighttime dark theme automatically', async ({ page }) => {
+  await page.clock.setFixedTime(new Date('2026-09-06T14:00:00'));
+  await page.goto('/');
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
+
+  await page.clock.setFixedTime(new Date('2026-09-06T21:00:00'));
+  await page.goto('/');
+  await expect(page.locator('html')).not.toHaveAttribute('data-theme', 'light');
 });
 
 test('the contact form posts to the live endpoint', async ({ page }) => {

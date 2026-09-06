@@ -17,7 +17,7 @@ function initThemeSwitcher() {
     }
   }
 
-  function applyTheme(theme) {
+  function applyTheme(theme, persist) {
     const light = theme === 'light';
     document.documentElement.classList.add('theme-switching');
     if (light) document.documentElement.setAttribute('data-theme', 'light');
@@ -26,7 +26,9 @@ function initThemeSwitcher() {
     btn.setAttribute('aria-pressed', String(light));
     paintIcons(light);
     if (meta) meta.setAttribute('content', light ? '#f7f6f2' : '#0a0a0e');
-    try { localStorage.setItem('preferred-theme', theme); } catch (e) {}
+    if (persist) {
+      try { localStorage.setItem('preferred-theme', theme); } catch (e) {}
+    }
     requestAnimationFrame(function () {
       requestAnimationFrame(function () {
         document.documentElement.classList.remove('theme-switching');
@@ -40,7 +42,7 @@ function initThemeSwitcher() {
     document.documentElement.style.setProperty('--theme-y', event.clientY + 'px');
 
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-      applyTheme(next);
+      applyTheme(next, true);
       return;
     }
 
@@ -48,7 +50,7 @@ function initThemeSwitcher() {
     const run = function () {
       if (applied) return;
       applied = true;
-      applyTheme(next);
+      applyTheme(next, true);
       window.dispatchEvent(new CustomEvent('theme-change-applied', { detail: { theme: next } }));
     };
 
@@ -63,9 +65,13 @@ function initThemeSwitcher() {
   });
 
   try {
-    applyTheme(localStorage.getItem('preferred-theme') === 'light' ? 'light' : 'dark');
+    const saved = localStorage.getItem('preferred-theme');
+    const hour = new Date().getHours();
+    const isDay = hour >= 6 && hour < 18;
+    const initial = saved || (isDay ? 'light' : 'dark');
+    applyTheme(initial, false);
   } catch (e) {
-    applyTheme('dark');
+    applyTheme('dark', false);
   }
 }
 
