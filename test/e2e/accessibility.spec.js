@@ -18,6 +18,7 @@ async function revealControls(page) {
 }
 
 async function scan(page, options = {}) {
+  await page.waitForTimeout(500);
   const builder = new AxeBuilder({ page }).withTags(RULES);
   return (options.build ? options.build(builder) : builder).analyze();
 }
