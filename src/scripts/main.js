@@ -404,10 +404,9 @@
     initLanguageSwitcher();
     if (window.initThemeSwitcher) window.initThemeSwitcher();
     if (window.initContactForm) {
-      // Public by design: Formspree endpoints are meant to be visible in the
-      // page. It is a mailbox id, never the destination address.
+      // In-house serverless endpoint: dispatches to Telegram and Email securely.
       window.initContactForm(document, {
-        endpoint: 'https://formspree.io/f/xeaqzrke',
+        endpoint: '/api/contact',
         siteKey: '',
         turnstile: window.turnstile,
       });

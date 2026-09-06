@@ -1,4 +1,4 @@
-const LIVE_FORMSPREE = /^https:\/\/formspree\.io\/f\/[A-Za-z0-9-]+$/;
+const LIVE_ENDPOINT = /^(\/api\/contact|https:\/\/formspree\.io\/f\/[A-Za-z0-9-]+)$/;
 
 const STATUS = {
   success: {
@@ -23,7 +23,7 @@ const SENT = { en: 'Sent', es: 'Enviado' };
 
 function isLiveEndpoint(endpoint) {
   return typeof endpoint === 'string'
-    && LIVE_FORMSPREE.test(endpoint)
+    && LIVE_ENDPOINT.test(endpoint)
     && !endpoint.includes('PLACEHOLDER');
 }
 
