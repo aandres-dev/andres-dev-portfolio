@@ -175,6 +175,18 @@
     -webkit-text-fill-color: transparent;
   }
 
+  .hero-role-desc {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-gold);
+    margin-top: var(--space-xs);
+    -webkit-text-fill-color: initial;
+  }
+
   .heading-section {
     font-family: var(--font-display);
     font-size: var(--text-3xl);
